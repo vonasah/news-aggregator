@@ -972,9 +972,28 @@ ${allUrls.map(u => `  <url>
             }), { headers: jsonHeaders });
         }
 
-        // No cache at all — start refresh in background, return empty with "loading" flag
-        // This prevents the user from waiting 30-60 seconds on cold start
+        // No cache at all (cold start after server restart + KV expired).
+        // Wait up to 15 seconds for refresh to populate at least some data,
+        // checking every second. This is much better UX than immediate "loading".
         if (!refreshInProgress) refreshGlobalCache().catch(console.error);
+
+        const WAIT_MS = 15000;
+        const CHECK_INTERVAL_MS = 500;
+        const startWait = Date.now();
+        while (Date.now() - startWait < WAIT_MS) {
+            if (globalCache.data && globalCache.data.length > 0) {
+                const filtered = filterByCategories(globalCache.data);
+                return new Response(JSON.stringify({
+                    status: "success", cached: false, stale: false,
+                    total: filtered.length, data: filtered.slice(0, 150),
+                    timestamp: globalCache.timestamp
+                }), { headers: jsonHeaders });
+            }
+            await new Promise(r => setTimeout(r, CHECK_INTERVAL_MS));
+        }
+
+        // Still nothing after 15s — feeds are probably very slow.
+        // Return loading so frontend can poll.
         return new Response(JSON.stringify({
             status: "loading",
             cached: false, stale: false,
