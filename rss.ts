@@ -278,17 +278,16 @@ class Semaphore {
 }
 const semaphore = new Semaphore(MAX_CONCURRENT);
 
-function stripHtml(html: string): string {
-    if (!html) return "";
-    let text = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-    text = text.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "");
-    text = text.replace(/<[^>]+>/g, " ");
-    text = text
+// Decode HTML entities — handles numeric, hex, and named entities
+function decodeEntities(text: string): string {
+    if (!text) return "";
+    return text
         .replace(/&nbsp;/gi, " ")
         .replace(/&amp;/gi, "&")
         .replace(/&lt;/gi, "<")
         .replace(/&gt;/gi, ">")
         .replace(/&quot;/gi, '"')
+        .replace(/&apos;/gi, "'")
         .replace(/&#39;/gi, "'")
         .replace(/&#8217;/gi, "’")
         .replace(/&#8216;/gi, "‘")
@@ -297,13 +296,49 @@ function stripHtml(html: string): string {
         .replace(/&#8212;/gi, "—")
         .replace(/&#8211;/gi, "–")
         .replace(/&hellip;/gi, "…")
-        .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n)));
+        .replace(/&#x([0-9a-f]+);/gi, (_, h) => {
+            const code = parseInt(h, 16);
+            return isFinite(code) ? String.fromCharCode(code) : "";
+        })
+        .replace(/&#(\d+);/g, (_, n) => {
+            const code = parseInt(n, 10);
+            return isFinite(code) ? String.fromCharCode(code) : "";
+        });
+}
+
+// Iteratively decode entities + strip tags until the result is stable.
+// Handles double-escaped HTML (e.g. &lt;p&gt;... becomes <p>... becomes stripped)
+// and RSS feeds that wrap content in CDATA with escape layers.
+function stripHtml(input: string): string {
+    if (!input) return "";
+    let text = String(input);
+    // Up to 3 iterations: decode entities, then strip tags. Stop when text stabilizes.
+    for (let i = 0; i < 3; i++) {
+        const before = text;
+        // Remove script/style blocks with content
+        text = text.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+        text = text.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "");
+        // Decode entities FIRST — this may reveal more tags hidden as &lt;p&gt;
+        text = decodeEntities(text);
+        // Then strip any tags that are now visible
+        text = text.replace(/<[^>]+>/g, " ");
+        if (text === before) break;
+    }
     return text.replace(/\s+/g, " ").trim();
 }
 
-function sanitizeHtml(html: string): string {
-    if (!html) return "";
-    let cleaned = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+function sanitizeHtml(input: string): string {
+    if (!input) return "";
+    let cleaned = String(input);
+    // Decode double-escaped HTML first (so <p> etc. become real tags before sanitizing)
+    for (let i = 0; i < 2; i++) {
+        const before = cleaned;
+        cleaned = decodeEntities(cleaned);
+        // Only iterate further if we still see escaped tag patterns
+        if (!/&lt;[a-z]/i.test(cleaned) && cleaned === before) break;
+    }
+    // Strip dangerous elements
+    cleaned = cleaned.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
     cleaned = cleaned.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "");
     cleaned = cleaned.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "");
     cleaned = cleaned.replace(/\s+on\w+="[^"]*"/gi, "");
