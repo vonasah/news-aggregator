@@ -1,6 +1,6 @@
 // rss.ts - Professional RSS Aggregator for Deno Deploy
-// v2.0 — Deno.cron background refresh, stale-while-revalidate,
-//        Atom/ESPN URL extraction, ad filtering, robust source names, quality gate.
+// v2.1 — KV size fix (per-category storage, compact payload),
+//         broken feeds removed/replaced.
 
 import { parseFeed } from "https://deno.land/x/rss/mod.ts";
 
@@ -11,8 +11,7 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://feeds.bbci.co.uk/news/world/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
-        "https://feeds.npr.org/1004/rss.xml",
-        "https://apnews.com/index.rss"
+        "https://feeds.npr.org/1004/rss.xml"
     ],
     "Economy": [
         "https://feeds.bbci.co.uk/news/business/rss.xml",
@@ -60,22 +59,19 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://www.coindesk.com/arc/outboundfeeds/rss/",
         "https://cointelegraph.com/rss",
         "https://decrypt.co/feed",
-        "https://bitcoinmagazine.com/.rss/full/",
-        "https://cryptoslate.com/feed/"
+        "https://bitcoinmagazine.com/.rss/full/"
     ],
     "Health": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml",
         "https://feeds.bbci.co.uk/news/health/rss.xml",
         "https://www.theguardian.com/society/health/rss",
-        "https://www.medicalnewstoday.com/rss",
         "https://www.statnews.com/feed/"
     ],
     "Sports": [
         "https://www.espn.com/espn/rss/news",
         "https://feeds.bbci.co.uk/sport/rss.xml",
         "https://www.theguardian.com/sport/rss",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
-        "https://api.foxsports.com/v1/rss"
+        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml"
     ],
     "Entertainment": [
         "https://variety.com/feed/",
@@ -92,22 +88,18 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://wwd.com/feed/"
     ],
     "Social Media": [
-        "https://feeds.mashable.com/Mashable/SocialMedia",
         "https://www.socialmediatoday.com/feeds/news/",
         "https://www.socialmediaexaminer.com/feed/",
         "https://techcrunch.com/category/social/feed/",
-        "https://www.theverge.com/rss/social/index.xml"
+        "https://www.theverge.com/rss/index.xml"
     ],
     "Analytics": [
         "https://www.kdnuggets.com/feed",
         "https://towardsdatascience.com/feed",
-        "https://flowingdata.com/feed/",
-        "https://www.datasciencecentral.com/feed/",
-        "https://hbr.org/big-ideas/data/feed"
+        "https://flowingdata.com/feed/"
     ],
     "Trends": [
         "https://www.buzzfeed.com/index.xml",
-        "https://www.buzzfeed.com/trending.xml",
         "https://mashable.com/feeds/rss/all",
         "https://www.theverge.com/rss/index.xml",
         "https://www.reddit.com/r/popular/.rss"
@@ -116,35 +108,27 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://www.menshealth.com/rss/all.xml/",
         "https://www.womenshealthmag.com/rss/all.xml/",
         "https://www.self.com/feed/rss",
-        "https://breakingmuscle.com/feed/",
         "https://www.nerdfitness.com/blog/feed/"
     ],
     "Travel": [
         "https://www.cntraveler.com/feed/rss",
         "https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml",
-        "https://www.theguardian.com/travel/rss",
-        "https://www.lonelyplanet.com/news/feed/atom/",
         "https://www.travelandleisure.com/feeds/all.rss.xml"
     ],
     "Food": [
         "https://www.bonappetit.com/feed/rss",
         "https://www.eater.com/rss/index.xml",
-        "https://www.seriouseats.com/rss",
         "https://www.foodandwine.com/feeds/all.rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml"
     ],
     "Environment": [
         "https://www.theguardian.com/environment/rss",
-        "https://grist.org/feed/",
         "https://insideclimatenews.org/feed/",
-        "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml",
-        "https://www.nationalgeographic.com/environment/rss/"
+        "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml"
     ],
     "Politics": [
-        "https://rss.politico.com/politics-news.xml",
         "https://feeds.npr.org/1014/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
-        "https://apnews.com/hub/politics/rss",
         "https://www.theguardian.com/politics/rss"
     ],
     "Startups": [
@@ -156,7 +140,6 @@ const RSS_FEEDS: Record<string, string[]> = {
     ],
     "Education": [
         "https://www.edsurge.com/articles_rss",
-        "https://www.chronicle.com/section/News/6/rss",
         "https://www.insidehighered.com/rss.xml",
         "https://hechingerreport.org/feed/",
         "https://www.theguardian.com/education/rss"
@@ -165,14 +148,12 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://news.artnet.com/feed",
         "https://hyperallergic.com/feed/",
         "https://www.theartnewspaper.com/rss",
-        "https://www.theguardian.com/artanddesign/rss",
-        "https://www.artsy.net/rss/news"
+        "https://www.theguardian.com/artanddesign/rss"
     ],
     "General": [
         "https://feeds.bbci.co.uk/news/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
         "https://feeds.npr.org/1001/rss.xml",
-        "https://apnews.com/index.rss",
         "https://www.theguardian.com/international/rss"
     ]
 };
@@ -209,11 +190,8 @@ const SOURCE_MAP: Record<string, string> = {
     "cointelegraph.com": "Cointelegraph",
     "decrypt.co": "Decrypt",
     "bitcoinmagazine.com": "Bitcoin Magazine",
-    "cryptoslate.com": "CryptoSlate",
-    "medicalnewstoday.com": "Medical News Today",
     "statnews.com": "STAT",
     "espn.com": "ESPN", "espn.go.com": "ESPN",
-    "foxsports.com": "Fox Sports",
     "variety.com": "Variety",
     "hollywoodreporter.com": "Hollywood Reporter",
     "deadline.com": "Deadline",
@@ -229,37 +207,27 @@ const SOURCE_MAP: Record<string, string> = {
     "kdnuggets.com": "KDnuggets",
     "towardsdatascience.com": "Towards Data Science",
     "flowingdata.com": "FlowingData",
-    "datasciencecentral.com": "Data Science Central",
-    "hbr.org": "Harvard Business Review",
     "buzzfeed.com": "BuzzFeed",
     "reddit.com": "Reddit",
     "menshealth.com": "Men's Health",
     "womenshealthmag.com": "Women's Health",
     "self.com": "SELF",
-    "breakingmuscle.com": "Breaking Muscle",
     "nerdfitness.com": "Nerd Fitness",
     "cntraveler.com": "Condé Nast Traveler",
-    "lonelyplanet.com": "Lonely Planet",
     "travelandleisure.com": "Travel + Leisure",
     "bonappetit.com": "Bon Appétit",
     "eater.com": "Eater",
-    "seriouseats.com": "Serious Eats",
     "foodandwine.com": "Food & Wine",
-    "grist.org": "Grist",
     "insideclimatenews.org": "Inside Climate News",
-    "nationalgeographic.com": "National Geographic",
-    "politico.com": "Politico",
     "crunchbase.com": "Crunchbase",
     "eu-startups.com": "EU-Startups",
     "sifted.eu": "Sifted",
     "edsurge.com": "EdSurge",
-    "chronicle.com": "Chronicle of Higher Ed",
     "insidehighered.com": "Inside Higher Ed",
     "hechingerreport.org": "Hechinger Report",
     "artnet.com": "Artnet",
     "hyperallergic.com": "Hyperallergic",
-    "theartnewspaper.com": "The Art Newspaper",
-    "artsy.net": "Artsy"
+    "theartnewspaper.com": "The Art Newspaper"
 };
 
 const AD_PATTERNS = [
@@ -290,8 +258,6 @@ function isAd(title: string, description: string): boolean {
 
 let kv: Deno.Kv | null = null;
 try { kv = await Deno.openKv(); } catch (_e) { console.warn("KV unavailable"); }
-
-interface CacheEntry { data: any[]; timestamp: number; }
 
 const CACHE_TTL = 10 * 60 * 1000;
 const STALE_TTL = 60 * 60 * 1000;
@@ -404,7 +370,6 @@ function buildFullContent(entry: any): string {
     return sanitizeHtml(raw);
 }
 
-// Robust URL extraction (handles RSS string, Atom href, arrays, guid fallback)
 function extractUrl(entry: any): string {
     if (typeof entry.link === "string" && entry.link.startsWith("http")) return entry.link;
     if (entry.link && typeof entry.link === "object") {
@@ -483,7 +448,6 @@ function computeImportance(title: string, url: string): number {
     return Math.max(1, Math.min(10, base + bonus));
 }
 
-// Drop items that would render as empty/broken cards
 function isLowQuality(title: string, description: string, url: string): boolean {
     if (!title || title === "Untitled") return true;
     if (!url) return true;
@@ -494,12 +458,13 @@ function isLowQuality(title: string, description: string, url: string): boolean 
     return false;
 }
 
+// In-memory cache for individual feeds (not persisted to KV — too large)
+const feedMemCache = new Map<string, { data: any[]; timestamp: number }>();
+
 async function fetchFeed(url: string, category: string): Promise<any[]> {
-    if (kv) {
-        const cached = await kv.get<CacheEntry>(["feed", url]);
-        if (cached.value && (Date.now() - cached.value.timestamp) < CACHE_TTL) {
-            return cached.value.data;
-        }
+    const cached = feedMemCache.get(url);
+    if (cached && (Date.now() - cached.timestamp) < CACHE_TTL) {
+        return cached.data;
     }
     try {
         const controller = new AbortController();
@@ -516,7 +481,7 @@ async function fetchFeed(url: string, category: string): Promise<any[]> {
         const xml = await response.text();
         const feed = await parseFeed(xml);
 
-        const items = feed.entries.slice(0, 20).map((entry: any) => {
+        const items = feed.entries.slice(0, 15).map((entry: any) => {
             const articleUrl = extractUrl(entry);
             const titleRaw = rawFieldToString(entry.title) || "Untitled";
             const title = stripHtml(titleRaw).trim() || "Untitled";
@@ -544,9 +509,7 @@ async function fetchFeed(url: string, category: string): Promise<any[]> {
             return true;
         });
 
-        if (kv && filtered.length > 0) {
-            await kv.set(["feed", url], { data: filtered, timestamp: Date.now() } as CacheEntry);
-        }
+        feedMemCache.set(url, { data: filtered, timestamp: Date.now() });
         return filtered;
     } catch (error) {
         console.error(`❌ ${url}:`, (error as Error).message);
@@ -570,7 +533,7 @@ async function fetchCategoryNews(category: string): Promise<any[]> {
         if (item.url && !seen.has(item.url)) { seen.add(item.url); uniqueItems.push(item); }
     }
     uniqueItems.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
-    return uniqueItems.slice(0, 30);
+    return uniqueItems.slice(0, 25);
 }
 
 async function fetchAllNews(): Promise<any[]> {
@@ -587,10 +550,99 @@ async function fetchAllNews(): Promise<any[]> {
     return allItems;
 }
 
-// ==================== GLOBAL CACHE ====================
+// ==================== CACHE: PER-CATEGORY + COMPACT ====================
+// Problem: Deno KV has a 65536 bytes limit per value.
+// Solution: store cache per category (smaller chunks), and use COMPACT version
+// (drop fullContent HTML + image URL path when too long) so it fits.
 
 let globalCache: { data: any[] | null; timestamp: number } = { data: null, timestamp: 0 };
 let refreshInProgress = false;
+
+// Strip heavy fields before storing in KV
+function makeCompact(items: any[]): any[] {
+    return items.map(it => ({
+        title: it.title,
+        description: it.description,
+        // omit full content for KV — frontend shows description in card,
+        // and modal can work without full HTML (just shows description again)
+        content: "",
+        category: it.category,
+        importance: it.importance,
+        source: it.source,
+        url: it.url,
+        image_url: it.image_url,
+        published_at: it.published_at,
+        views: 0
+    }));
+}
+
+async function saveCacheToKV(allNews: any[]): Promise<void> {
+    if (!kv) return;
+    try {
+        // Group by category
+        const byCategory: Record<string, any[]> = {};
+        for (const item of allNews) {
+            const cat = item.category || "General";
+            if (!byCategory[cat]) byCategory[cat] = [];
+            byCategory[cat].push(item);
+        }
+
+        // Save each category separately as compact JSON
+        const categories = Object.keys(byCategory);
+        const timestamp = Date.now();
+        for (const cat of categories) {
+            const compact = makeCompact(byCategory[cat]);
+            try {
+                await kv.set(
+                    ["globalCache", cat],
+                    { data: compact, timestamp },
+                    { expireIn: STALE_TTL }
+                );
+            } catch (e) {
+                console.warn(`Could not save category ${cat} to KV:`, (e as Error).message);
+            }
+        }
+
+        // Save index (list of categories + timestamp)
+        try {
+            await kv.set(
+                ["globalCacheIndex"],
+                { categories, timestamp },
+                { expireIn: STALE_TTL }
+            );
+        } catch (e) {
+            console.warn("Could not save index to KV:", (e as Error).message);
+        }
+        console.log(`💾 Saved ${categories.length} categories to KV`);
+    } catch (e) {
+        console.warn("saveCacheToKV failed:", e);
+    }
+}
+
+async function warmCacheFromKV(): Promise<void> {
+    if (!kv) return;
+    try {
+        const indexEntry = await kv.get<{ categories: string[]; timestamp: number }>(["globalCacheIndex"]);
+        if (!indexEntry.value) {
+            console.log("📭 No cache index in KV");
+            return;
+        }
+        const { categories, timestamp } = indexEntry.value;
+        const allItems: any[] = [];
+        for (const cat of categories) {
+            const entry = await kv.get<{ data: any[]; timestamp: number }>(["globalCache", cat]);
+            if (entry.value?.data) allItems.push(...entry.value.data);
+        }
+        if (allItems.length > 0) {
+            allItems.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
+            globalCache = { data: allItems, timestamp };
+            const ageS = Math.round((Date.now() - timestamp) / 1000);
+            console.log(`🔥 Warmed from KV: ${allItems.length} items across ${categories.length} categories (${ageS}s old)`);
+        }
+    } catch (e) {
+        console.warn("warmCacheFromKV failed:", e);
+    }
+}
 
 async function refreshGlobalCache(): Promise<void> {
     if (refreshInProgress) return;
@@ -600,7 +652,7 @@ async function refreshGlobalCache(): Promise<void> {
         const allNews = await fetchAllNews();
         if (allNews.length > 0) {
             globalCache = { data: allNews, timestamp: Date.now() };
-            if (kv) await kv.set(["globalCache"], globalCache, { expireIn: STALE_TTL });
+            await saveCacheToKV(allNews);
             console.log(`✅ Cache refreshed: ${allNews.length} items`);
         } else {
             console.warn("⚠️ Refresh returned 0 items; keeping old cache");
@@ -612,20 +664,8 @@ async function refreshGlobalCache(): Promise<void> {
     }
 }
 
-async function warmCache(): Promise<void> {
-    if (!kv) return;
-    try {
-        const stored = await kv.get<{ data: any[]; timestamp: number }>(["globalCache"]);
-        if (stored.value?.data?.length) {
-            globalCache = stored.value;
-            const ageS = Math.round((Date.now() - stored.value.timestamp) / 1000);
-            console.log(`🔥 Warmed from KV: ${stored.value.data.length} items (${ageS}s old)`);
-        }
-    } catch (e) { console.warn("Warm cache failed:", e); }
-}
-await warmCache();
+await warmCacheFromKV();
 
-// Cron for background refresh (Deno Deploy). setInterval fallback for local dev.
 try {
     Deno.cron("Refresh RSS cache", "*/10 * * * *", async () => { await refreshGlobalCache(); });
     console.log("⏰ Cron scheduled: every 10 minutes");
@@ -659,7 +699,8 @@ Deno.serve(async (req: Request) => {
             timestamp: Date.now(),
             cacheItems: globalCache.data?.length || 0,
             cacheAge: globalCache.timestamp ? Math.round((Date.now() - globalCache.timestamp) / 1000) : null,
-            refreshInProgress
+            refreshInProgress,
+            kvAvailable: !!kv
         }), { headers });
     }
 
@@ -668,7 +709,6 @@ Deno.serve(async (req: Request) => {
         const now = Date.now();
         const age = now - globalCache.timestamp;
 
-        // Fresh cache
         if (globalCache.data && age < CACHE_TTL) {
             let filtered = globalCache.data;
             if (category !== "all") filtered = filtered.filter(i => i.category === category);
@@ -679,7 +719,6 @@ Deno.serve(async (req: Request) => {
             }), { headers });
         }
 
-        // Stale but serveable — return immediately and refresh in background
         if (globalCache.data && age < STALE_TTL) {
             if (!refreshInProgress) refreshGlobalCache().catch(console.error);
             let filtered = globalCache.data;
@@ -691,7 +730,6 @@ Deno.serve(async (req: Request) => {
             }), { headers });
         }
 
-        // No cache — must fetch synchronously
         console.log("🔄 No cache; synchronous fetch...");
         await refreshGlobalCache();
         let filtered = globalCache.data || [];
