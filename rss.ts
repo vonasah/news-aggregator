@@ -11,74 +11,126 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://feeds.bbci.co.uk/news/world/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
-        "https://feeds.npr.org/1004/rss.xml"
+        "https://feeds.npr.org/1004/rss.xml",
+        "https://www.aljazeera.com/xml/rss/all.xml",
+        "https://rss.dw.com/rdf/rss-en-world",
+        "https://feeds.skynews.com/feeds/rss/world.xml",
+        "https://www.france24.com/en/rss",
+        "https://www.euronews.com/rss?level=theme&name=news"
     ],
     "Economy": [
         "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
         "https://www.theguardian.com/business/rss",
         "https://feeds.marketwatch.com/marketwatch/topstories/",
-        "https://www.ft.com/rss/home"
+        "https://www.ft.com/rss/home",
+        "https://feeds.reuters.com/reuters/businessNews",
+        "https://www.economist.com/business/rss.xml",
+        "https://feeds.bloomberg.com/markets/news.rss"
+    ],
+    "Markets & Finance": [
+        "https://finance.yahoo.com/news/rssindex",
+        "https://www.investing.com/rss/news_301.rss",
+        "https://seekingalpha.com/feed.xml",
+        "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+        "https://feeds.marketwatch.com/marketwatch/marketpulse/",
+        "https://www.economist.com/finance-and-economics/rss.xml"
     ],
     "Science": [
         "https://www.sciencedaily.com/rss/all.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",
         "https://www.theguardian.com/science/rss",
         "https://www.nature.com/nature.rss",
-        "https://www.newscientist.com/feed/home/"
+        "https://www.newscientist.com/feed/home/",
+        "https://www.quantamagazine.org/feed/",
+        "https://www.livescience.com/feeds/all",
+        "https://phys.org/rss-feed/"
     ],
     "Space": [
         "https://www.space.com/feeds/all",
         "https://www.nasa.gov/feed/",
         "https://phys.org/rss-feed/space-news/",
         "https://www.universetoday.com/feed/",
-        "https://www.sciencedaily.com/rss/space_time.xml"
+        "https://www.sciencedaily.com/rss/space_time.xml",
+        "https://spacenews.com/feed/",
+        "https://www.esa.int/rssfeed/Our_Activities/Space_News"
     ],
     "Technology": [
         "https://techcrunch.com/feed/",
         "https://www.theverge.com/rss/index.xml",
         "https://www.wired.com/feed/rss",
         "https://feeds.arstechnica.com/arstechnica/index",
-        "https://www.engadget.com/rss.xml"
+        "https://www.engadget.com/rss.xml",
+        "https://news.ycombinator.com/rss",
+        "https://www.zdnet.com/news/rss.xml",
+        "https://gizmodo.com/rss",
+        "https://9to5mac.com/feed/"
     ],
     "AI": [
         "https://techcrunch.com/category/artificial-intelligence/feed/",
         "https://www.technologyreview.com/topic/artificial-intelligence/feed",
         "https://venturebeat.com/category/ai/feed/",
         "https://openai.com/news/rss.xml",
-        "https://www.wired.com/feed/tag/ai/latest/rss"
+        "https://www.wired.com/feed/tag/ai/latest/rss",
+        "https://huggingface.co/blog/feed.xml",
+        "https://www.marktechpost.com/feed/",
+        "https://bair.berkeley.edu/blog/feed.xml"
+    ],
+    "Cybersecurity": [
+        "https://krebsonsecurity.com/feed/",
+        "https://feeds.feedburner.com/TheHackersNews",
+        "https://www.bleepingcomputer.com/feed/",
+        "https://www.darkreading.com/rss.xml",
+        "https://www.schneier.com/blog/atom.xml",
+        "https://www.csoonline.com/index.rss"
     ],
     "Gaming": [
         "https://www.polygon.com/rss/index.xml",
         "https://www.eurogamer.net/?format=rss",
         "https://kotaku.com/rss",
         "https://www.pcgamer.com/rss/",
-        "https://feeds.ign.com/ign/games-all"
+        "https://feeds.ign.com/ign/games-all",
+        "https://www.gamespot.com/feeds/news/",
+        "https://www.rockpapershotgun.com/feed",
+        "https://www.destructoid.com/feed/"
     ],
     "Cryptocurrency": [
         "https://www.coindesk.com/arc/outboundfeeds/rss/",
         "https://cointelegraph.com/rss",
         "https://decrypt.co/feed",
-        "https://bitcoinmagazine.com/.rss/full/"
+        "https://bitcoinmagazine.com/.rss/full/",
+        "https://www.theblock.co/rss.xml",
+        "https://u.today/rss",
+        "https://cryptobriefing.com/feed/",
+        "https://cryptopotato.com/feed/",
+        "https://blockworks.co/feed",
+        "https://cryptonews.com/news/feed/"
     ],
     "Health": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml",
         "https://feeds.bbci.co.uk/news/health/rss.xml",
         "https://www.theguardian.com/society/health/rss",
-        "https://www.statnews.com/feed/"
+        "https://www.statnews.com/feed/",
+        "https://www.healthline.com/rss/news",
+        "https://www.medicalnewstoday.com/newsfeeds-rss",
+        "https://www.health.harvard.edu/blog/feed"
     ],
     "Sports": [
         "https://www.espn.com/espn/rss/news",
         "https://feeds.bbci.co.uk/sport/rss.xml",
         "https://www.theguardian.com/sport/rss",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml"
+        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
+        "https://www.skysports.com/rss/12040",
+        "https://www.cbssports.com/rss/headlines/"
     ],
     "Entertainment": [
         "https://variety.com/feed/",
         "https://www.hollywoodreporter.com/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml",
         "https://deadline.com/feed/",
-        "https://www.rollingstone.com/feed/"
+        "https://www.rollingstone.com/feed/",
+        "https://ew.com/feed/",
+        "https://www.indiewire.com/feed/"
     ],
     "Fashion": [
         "https://www.vogue.com/feed/rss",
@@ -96,7 +148,8 @@ const RSS_FEEDS: Record<string, string[]> = {
     "Analytics": [
         "https://www.kdnuggets.com/feed",
         "https://towardsdatascience.com/feed",
-        "https://flowingdata.com/feed/"
+        "https://flowingdata.com/feed/",
+        "https://www.datanami.com/feed/"
     ],
     "Trends": [
         "https://www.buzzfeed.com/index.xml",
@@ -113,23 +166,29 @@ const RSS_FEEDS: Record<string, string[]> = {
     "Travel": [
         "https://www.cntraveler.com/feed/rss",
         "https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml",
-        "https://www.travelandleisure.com/feeds/all.rss.xml"
+        "https://www.travelandleisure.com/feeds/all.rss.xml",
+        "https://www.afar.com/rss"
     ],
     "Food": [
         "https://www.bonappetit.com/feed/rss",
         "https://www.eater.com/rss/index.xml",
         "https://www.foodandwine.com/feeds/all.rss.xml",
-        "https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml"
+        "https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml",
+        "https://www.seriouseats.com/rss"
     ],
     "Environment": [
         "https://www.theguardian.com/environment/rss",
         "https://insideclimatenews.org/feed/",
-        "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml"
+        "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml",
+        "https://grist.org/feed/",
+        "https://www.nationalgeographic.com/environment/index.rss"
     ],
     "Politics": [
         "https://feeds.npr.org/1014/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
-        "https://www.theguardian.com/politics/rss"
+        "https://www.theguardian.com/politics/rss",
+        "https://www.politico.com/rss/politics08.xml",
+        "https://thehill.com/news/feed/"
     ],
     "Startups": [
         "https://techcrunch.com/category/startups/feed/",
@@ -227,7 +286,60 @@ const SOURCE_MAP: Record<string, string> = {
     "hechingerreport.org": "Hechinger Report",
     "artnet.com": "Artnet",
     "hyperallergic.com": "Hyperallergic",
-    "theartnewspaper.com": "The Art Newspaper"
+    "theartnewspaper.com": "The Art Newspaper",
+    // --- Newly added sources ---
+    "aljazeera.com": "Al Jazeera",
+    "dw.com": "DW",
+    "skynews.com": "Sky News",
+    "france24.com": "France 24",
+    "euronews.com": "Euronews",
+    "reuters.com": "Reuters",
+    "economist.com": "The Economist",
+    "bloomberg.com": "Bloomberg",
+    "yahoo.com": "Yahoo Finance", "finance.yahoo.com": "Yahoo Finance",
+    "investing.com": "Investing.com",
+    "seekingalpha.com": "Seeking Alpha",
+    "cnbc.com": "CNBC",
+    "quantamagazine.org": "Quanta Magazine",
+    "livescience.com": "Live Science",
+    "spacenews.com": "SpaceNews",
+    "esa.int": "ESA",
+    "ycombinator.com": "Hacker News", "news.ycombinator.com": "Hacker News",
+    "zdnet.com": "ZDNet",
+    "gizmodo.com": "Gizmodo",
+    "9to5mac.com": "9to5Mac",
+    "huggingface.co": "Hugging Face",
+    "marktechpost.com": "MarkTechPost",
+    "berkeley.edu": "BAIR Berkeley", "bair.berkeley.edu": "BAIR Berkeley",
+    "krebsonsecurity.com": "Krebs on Security",
+    "thehackernews.com": "The Hacker News", "feedburner.com": "The Hacker News",
+    "bleepingcomputer.com": "Bleeping Computer",
+    "darkreading.com": "Dark Reading",
+    "schneier.com": "Schneier on Security",
+    "csoonline.com": "CSO Online",
+    "gamespot.com": "GameSpot",
+    "rockpapershotgun.com": "Rock Paper Shotgun",
+    "destructoid.com": "Destructoid",
+    "theblock.co": "The Block",
+    "u.today": "U.Today",
+    "cryptobriefing.com": "Crypto Briefing",
+    "cryptopotato.com": "CryptoPotato",
+    "blockworks.co": "Blockworks",
+    "cryptonews.com": "Crypto News",
+    "healthline.com": "Healthline",
+    "medicalnewstoday.com": "Medical News Today",
+    "health.harvard.edu": "Harvard Health",
+    "skysports.com": "Sky Sports",
+    "cbssports.com": "CBS Sports",
+    "ew.com": "Entertainment Weekly",
+    "indiewire.com": "IndieWire",
+    "datanami.com": "Datanami",
+    "afar.com": "AFAR",
+    "seriouseats.com": "Serious Eats",
+    "grist.org": "Grist",
+    "nationalgeographic.com": "National Geographic",
+    "politico.com": "Politico",
+    "thehill.com": "The Hill"
 };
 
 const AD_PATTERNS = [
