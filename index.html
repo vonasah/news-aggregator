@@ -495,6 +495,15 @@ button.primary { background: var(--accent); color: white; border: none; }
 .empty-state p { font-size: 0.9rem; margin-bottom: 0.25rem; }
 .empty-state small { font-size: 0.75rem; opacity: 0.7; }
 
+/* Warmup state: big animated metronome + countdown — shown during cold start */
+.empty-state.warmup .default-empty { display: none; }
+.empty-state.warmup .warmup-empty { display: block !important; }
+.warmup-metronome { width: 96px; height: 96px; margin: 0 auto 1rem auto; display: block; opacity: 0.85; }
+.warmup-metronome .metronome-rod { transform-origin: 32px 50px; animation: pendulum-swing 2.2s ease-in-out infinite; }
+.warmup-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.warmup-subtitle { line-height: 1.5; }
+.warmup-countdown { font-weight: 700; color: var(--accent); }
+
 /* Footer */
 .site-footer { margin-top: 3rem; padding: 2rem 1.5rem 1.5rem 1.5rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 1rem; }
 .footer-top { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
@@ -644,9 +653,28 @@ button.primary { background: var(--accent); color: white; border: none; }
     <div id="skeletonLoader" class="skeleton-grid" style="display:none;"></div>
 
     <div id="emptyState" class="empty-state" style="display:none;">
-        <div class="emoji">📭</div>
-        <p>No news to display</p>
-        <small id="emptyStateHint">Try clearing filters or waiting for the next refresh</small>
+        <!-- Default empty state (no articles match filters) -->
+        <div class="default-empty">
+            <div class="emoji">📭</div>
+            <p>No news to display</p>
+            <small id="emptyStateHint">Try clearing filters or waiting for the next refresh</small>
+        </div>
+        <!-- Warmup state shown during cold start -->
+        <div class="warmup-empty" style="display:none;">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" class="warmup-metronome" aria-hidden="true">
+                <defs><linearGradient id="warmupGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#3b82f6"/>
+                    <stop offset="100%" stop-color="#f97316"/>
+                </linearGradient></defs>
+                <path d="M20 50 L44 50 L36 14 L28 14 Z" fill="none" stroke="url(#warmupGrad)" stroke-width="3" stroke-linejoin="round"/>
+                <g class="metronome-rod">
+                    <line x1="32" y1="50" x2="22" y2="22" stroke="url(#warmupGrad)" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="22" cy="22" r="3" fill="url(#warmupGrad)"/>
+                </g>
+            </svg>
+            <p class="warmup-title">Tuning the rhythm…</p>
+            <small class="warmup-subtitle">First load takes a moment — the metronome is warming up.<br>Ready in <span class="warmup-countdown">~15s</span></small>
+        </div>
     </div>
 
     <footer class="site-footer">
@@ -900,6 +928,11 @@ async function fetchNews(options = {}) {
 
         // Backend is still warming up cold cache — show a friendly waiting state and poll
         if (data.status === 'loading') {
+            const emptyStateEl = document.getElementById('emptyState');
+            if (emptyStateEl) {
+                emptyStateEl.classList.add('warmup');
+                emptyStateEl.style.display = '';
+            }
             startWarmupPolling();
             return;
         }
@@ -996,6 +1029,9 @@ function stopWarmupPolling() {
         warmupPollingId = null;
         warmupSecondsLeft = 0;
     }
+    // Always remove warmup state from empty state UI
+    const emptyStateEl = document.getElementById('emptyState');
+    if (emptyStateEl) emptyStateEl.classList.remove('warmup');
 }
 
 function refreshNews(showLoader=true) {
