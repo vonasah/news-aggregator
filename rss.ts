@@ -24,7 +24,6 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://www.theguardian.com/business/rss",
         "https://feeds.marketwatch.com/marketwatch/topstories/",
         "https://www.ft.com/rss/home",
-        "https://feeds.reuters.com/reuters/businessNews",
         "https://www.economist.com/business/rss.xml",
         "https://feeds.bloomberg.com/markets/news.rss"
     ],
@@ -82,7 +81,7 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://www.bleepingcomputer.com/feed/",
         "https://www.darkreading.com/rss.xml",
         "https://www.schneier.com/blog/atom.xml",
-        "https://www.csoonline.com/index.rss"
+        "https://www.securityweek.com/feed/"
     ],
     "Gaming": [
         "https://www.polygon.com/rss/index.xml",
@@ -92,7 +91,7 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://feeds.ign.com/ign/games-all",
         "https://www.gamespot.com/feeds/news/",
         "https://www.rockpapershotgun.com/feed",
-        "https://www.destructoid.com/feed/"
+        "https://www.vg247.com/feed"
     ],
     "Cryptocurrency": [
         "https://www.coindesk.com/arc/outboundfeeds/rss/",
@@ -111,9 +110,8 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://feeds.bbci.co.uk/news/health/rss.xml",
         "https://www.theguardian.com/society/health/rss",
         "https://www.statnews.com/feed/",
-        "https://www.healthline.com/rss/news",
-        "https://www.medicalnewstoday.com/newsfeeds-rss",
-        "https://www.health.harvard.edu/blog/feed"
+        "https://www.medpagetoday.com/rss/headlines.xml",
+        "https://tools.cdc.gov/api/v2/resources/media/403372.rss"
     ],
     "Sports": [
         "https://www.espn.com/espn/rss/news",
@@ -129,7 +127,6 @@ const RSS_FEEDS: Record<string, string[]> = {
         "https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml",
         "https://deadline.com/feed/",
         "https://www.rollingstone.com/feed/",
-        "https://ew.com/feed/",
         "https://www.indiewire.com/feed/"
     ],
     "Fashion": [
@@ -166,36 +163,30 @@ const RSS_FEEDS: Record<string, string[]> = {
     "Travel": [
         "https://www.cntraveler.com/feed/rss",
         "https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml",
-        "https://www.travelandleisure.com/feeds/all.rss.xml",
-        "https://www.afar.com/rss"
+        "https://www.lonelyplanet.com/rss/news.rss"
     ],
     "Food": [
         "https://www.bonappetit.com/feed/rss",
         "https://www.eater.com/rss/index.xml",
-        "https://www.foodandwine.com/feeds/all.rss.xml",
-        "https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml",
-        "https://www.seriouseats.com/rss"
+        "https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml"
     ],
     "Environment": [
         "https://www.theguardian.com/environment/rss",
         "https://insideclimatenews.org/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml",
-        "https://grist.org/feed/",
-        "https://www.nationalgeographic.com/environment/index.rss"
+        "https://grist.org/feed/"
     ],
     "Politics": [
         "https://feeds.npr.org/1014/rss.xml",
         "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
         "https://www.theguardian.com/politics/rss",
-        "https://www.politico.com/rss/politics08.xml",
-        "https://thehill.com/news/feed/"
+        "https://thehill.com/feed/"
     ],
     "Startups": [
         "https://techcrunch.com/category/startups/feed/",
         "https://news.crunchbase.com/feed/",
         "https://www.eu-startups.com/feed/",
-        "https://sifted.eu/feed",
-        "https://venturebeat.com/category/entrepreneur/feed/"
+        "https://sifted.eu/feed"
     ],
     "Education": [
         "https://www.edsurge.com/articles_rss",
@@ -206,7 +197,6 @@ const RSS_FEEDS: Record<string, string[]> = {
     "Art": [
         "https://news.artnet.com/feed",
         "https://hyperallergic.com/feed/",
-        "https://www.theartnewspaper.com/rss",
         "https://www.theguardian.com/artanddesign/rss"
     ],
     "General": [
@@ -338,7 +328,11 @@ const SOURCE_MAP: Record<string, string> = {
     "seriouseats.com": "Serious Eats",
     "grist.org": "Grist",
     "nationalgeographic.com": "National Geographic",
-    "politico.com": "Politico",
+    "securityweek.com": "SecurityWeek",
+    "vg247.com": "VG247",
+    "medpagetoday.com": "MedPage Today",
+    "cdc.gov": "CDC",
+    "lonelyplanet.com": "Lonely Planet",
     "thehill.com": "The Hill"
 };
 
@@ -618,10 +612,11 @@ async function fetchFeed(url: string, category: string): Promise<any[]> {
     }
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        // 8s timeout per feed — aggressive but keeps cron from being stuck on slow feeds
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
         const response = await fetch(url, {
             signal: controller.signal,
-            headers: { "User-Agent": "Mozilla/5.0 (compatible; NewsAggregatorBot/1.0)" }
+            headers: { "User-Agent": "Mozilla/5.0 (compatible; MetronomeNewsBot/1.0)" }
         });
         clearTimeout(timeoutId);
         if (!response.ok) {
@@ -629,6 +624,10 @@ async function fetchFeed(url: string, category: string): Promise<any[]> {
             return [];
         }
         const xml = await response.text();
+        if (!xml || xml.length < 50) {
+            console.warn(`⚠️ Empty/short response from: ${url}`);
+            return [];
+        }
         const feed = await parseFeed(xml);
 
         const items = feed.entries.slice(0, 15).map((entry: any) => {
@@ -662,7 +661,13 @@ async function fetchFeed(url: string, category: string): Promise<any[]> {
         feedMemCache.set(url, { data: filtered, timestamp: Date.now() });
         return filtered;
     } catch (error) {
-        console.error(`❌ ${url}:`, (error as Error).message);
+        const err = error as Error;
+        // Distinguish timeout from other errors in logs for easier triage
+        if (err.name === 'AbortError') {
+            console.warn(`⏱️ Timeout (8s): ${url}`);
+        } else {
+            console.error(`❌ ${url}: ${err.message}`);
+        }
         return [];
     }
 }
@@ -718,14 +723,14 @@ let refreshInProgress = false;
 // Fresh cron data will have full descriptions/images; KV fallback is minimal.
 function makeUltraCompact(items: any[]): any[] {
     return items.map(it => ({
-        title: it.title.slice(0, 200),           // cap title length
-        description: (it.description || "").slice(0, 140), // tight desc cap
-        content: "",                              // never in KV — too heavy
+        title: (it.title || "").slice(0, 140),     // tight title cap
+        description: (it.description || "").slice(0, 100), // very tight desc — it's a fallback, not primary
+        content: "",                                // never in KV — too heavy
         category: it.category,
         importance: it.importance,
         source: it.source,
         url: it.url,
-        image_url: null,                          // drop from KV (largest field); fresh refresh restores
+        image_url: null,                            // drop from KV (largest field); fresh refresh restores
         published_at: it.published_at,
         views: 0
     }));
@@ -753,27 +758,39 @@ async function saveCacheToKV(allNews: any[]): Promise<void> {
             return;
         }
 
-        const compact = makeUltraCompact(allNews);
+        // Hard cap: take most recent 300 items for KV (rest live only in memory).
+        // This prevents overflow regardless of feed count.
+        const capped = allNews.slice(0, 300);
+        const compact = makeUltraCompact(capped);
         const timestamp = Date.now();
-        const payload = { data: compact, timestamp, hash: newHash, count: compact.length };
-        const jsonSize = JSON.stringify(payload).length;
-
-        // If the ultra-compact payload is still over 60KB (safety margin under 64KB limit),
-        // progressively trim the news count until it fits.
         let trimmed = compact;
-        while (JSON.stringify({ ...payload, data: trimmed }).length > 60000 && trimmed.length > 50) {
-            trimmed = trimmed.slice(0, Math.floor(trimmed.length * 0.9));
+
+        // Progressively trim until payload fits in ~55KB (safety under 64KB limit).
+        // Start aggressive: drop 20% each iteration.
+        const buildPayload = (items: any[]) => ({ data: items, timestamp, hash: newHash, count: items.length });
+        let size = JSON.stringify(buildPayload(trimmed)).length;
+
+        while (size > 55000 && trimmed.length > 30) {
+            trimmed = trimmed.slice(0, Math.floor(trimmed.length * 0.8));
+            size = JSON.stringify(buildPayload(trimmed)).length;
         }
-        const finalPayload = { data: trimmed, timestamp, hash: newHash, count: trimmed.length };
-        const finalSize = JSON.stringify(finalPayload).length;
+
+        // Last resort: if still too big (very unlikely), truncate further
+        if (size > 60000) {
+            trimmed = trimmed.slice(0, 30);
+            size = JSON.stringify(buildPayload(trimmed)).length;
+        }
+
+        const finalPayload = buildPayload(trimmed);
 
         try {
             await kv.set(["globalCache"], finalPayload, { expireIn: STALE_TTL });
             lastSavedHash = newHash;
             kvWriteCounter++;
-            console.log(`💾 KV write: 1 key, ${trimmed.length} items, ${finalSize} bytes (was ${jsonSize}). Total writes this session: ${kvWriteCounter}`);
+            console.log(`💾 KV write OK: 1 key, ${trimmed.length}/${capped.length} items kept (${size} bytes). Writes this session: ${kvWriteCounter}`);
         } catch (e) {
-            console.warn(`Could not save to KV:`, (e as Error).message);
+            // KV write failed (size limit etc) — don't break: cache lives in memory
+            console.warn(`⚠️ KV save failed (cache still in memory): ${(e as Error).message}`);
         }
     } catch (e) {
         console.warn("saveCacheToKV failed:", e);
@@ -917,39 +934,53 @@ ${allUrls.map(u => `  <url>
 
     // ==================== API: NEWS ====================
     if (path === "/api/news" || path === "/news") {
-        const category = url.searchParams.get("category") || "all";
+        // Support both single "category" and batch "categories=a,b,c" parameters
+        const singleCategory = url.searchParams.get("category");
+        const batchCategories = url.searchParams.get("categories");
+        const categoryFilter: string[] | null = batchCategories
+            ? batchCategories.split(",").map(c => c.trim()).filter(Boolean)
+            : (singleCategory && singleCategory !== "all" ? [singleCategory] : null);
+
         const now = Date.now();
         const age = now - globalCache.timestamp;
 
+        // Helper to filter cache by requested categories
+        const filterByCategories = (data: any[]) => {
+            if (!categoryFilter || categoryFilter.length === 0) return data;
+            const set = new Set(categoryFilter);
+            return data.filter(i => set.has(i.category));
+        };
+
+        // Fresh cache — return immediately
         if (globalCache.data && age < CACHE_TTL) {
-            let filtered = globalCache.data;
-            if (category !== "all") filtered = filtered.filter(i => i.category === category);
+            const filtered = filterByCategories(globalCache.data);
             return new Response(JSON.stringify({
                 status: "success", cached: true, stale: false,
-                total: filtered.length, data: filtered.slice(0, 100),
+                total: filtered.length, data: filtered.slice(0, 150),
                 timestamp: globalCache.timestamp
             }), { headers: jsonHeaders });
         }
 
+        // Stale cache (older than CACHE_TTL but within STALE_TTL) — return stale + trigger refresh
         if (globalCache.data && age < STALE_TTL) {
             if (!refreshInProgress) refreshGlobalCache().catch(console.error);
-            let filtered = globalCache.data;
-            if (category !== "all") filtered = filtered.filter(i => i.category === category);
+            const filtered = filterByCategories(globalCache.data);
             return new Response(JSON.stringify({
                 status: "success", cached: true, stale: true,
-                total: filtered.length, data: filtered.slice(0, 100),
+                total: filtered.length, data: filtered.slice(0, 150),
                 timestamp: globalCache.timestamp
             }), { headers: jsonHeaders });
         }
 
-        console.log("🔄 No cache; synchronous fetch...");
-        await refreshGlobalCache();
-        let filtered = globalCache.data || [];
-        if (category !== "all") filtered = filtered.filter(i => i.category === category);
+        // No cache at all — start refresh in background, return empty with "loading" flag
+        // This prevents the user from waiting 30-60 seconds on cold start
+        if (!refreshInProgress) refreshGlobalCache().catch(console.error);
         return new Response(JSON.stringify({
-            status: "success", cached: false, stale: false,
-            total: filtered.length, data: filtered.slice(0, 100),
-            timestamp: globalCache.timestamp || now
+            status: "loading",
+            cached: false, stale: false,
+            total: 0, data: [],
+            timestamp: now,
+            message: "Cache is warming up, try again in a few seconds"
         }), { headers: jsonHeaders });
     }
 
