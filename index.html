@@ -606,13 +606,13 @@ button.primary { background: var(--accent); color: white; border: none; }
             <div class="auto-controls">
                 <span style="font-size:0.7rem;">⚡ Auto:</span>
                 <select id="intervalSelect">
-                    <option value="0">Off</option>
+                    <option value="0" selected>Off</option>
                     <option value="30">30s</option>
-                    <option value="60" selected>1m</option>
+                    <option value="60">1m</option>
                     <option value="300">5m</option>
                 </select>
                 <button id="manualRefreshBtn" class="primary">🔄 Now</button>
-                <span id="countdownDisplay" class="countdown">next in 60s</span>
+                <span id="countdownDisplay" class="countdown"></span>
                 <div class="view-toggle" role="group" aria-label="View mode">
                     <button class="view-btn" id="viewGridBtn" title="Grid view" aria-label="Grid view">▦</button>
                     <button class="view-btn" id="viewListBtn" title="List view" aria-label="List view">≡</button>
@@ -878,14 +878,36 @@ function renderSkeletons(count = 9) {
 function hideSkeletons() { document.getElementById('skeletonLoader').style.display = 'none'; }
 
 // ==================== FETCH ====================
+let warmupPollingId = null;     // interval ID for polling when cache is warming up
+let warmupSecondsLeft = 0;      // countdown for UI
+
 async function fetchNews(options = {}) {
     const { silent = false, isBackground = false } = options;
     if (!silent) showToast('📡 Fetching latest news...');
     try {
-        const response = await fetch(`${API_BASE_URL}/api/news?category=all`);
+        // Batch request — ask only for categories user has selected
+        // (much faster than filtering all 26 categories on frontend)
+        const filteredCats = currentFilters.categories && currentFilters.categories.size > 0
+            ? [...currentFilters.categories].join(",")
+            : null;
+        const endpoint = filteredCats
+            ? `${API_BASE_URL}/api/news?categories=${encodeURIComponent(filteredCats)}`
+            : `${API_BASE_URL}/api/news?category=all`;
+
+        const response = await fetch(endpoint);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
+
+        // Backend is still warming up cold cache — show a friendly waiting state and poll
+        if (data.status === 'loading') {
+            startWarmupPolling();
+            return;
+        }
+
         if (data.status !== 'success' || !Array.isArray(data.data)) throw new Error('Invalid response');
+
+        // Stop polling if it was running
+        stopWarmupPolling();
 
         if (data.data.length === 0) {
             hasEverLoaded = true;
@@ -946,6 +968,33 @@ async function fetchNews(options = {}) {
         console.error('Fetch error:', error);
         if (!silent) showToast(`⚠️ ${error.message || 'Fetch failed'}`);
         if (!hasEverLoaded) renderNews();
+    }
+}
+
+// When backend returns status:loading (cold start, cache warming up),
+// poll every 3 seconds and show a friendly countdown to the user.
+function startWarmupPolling() {
+    if (warmupPollingId) return;  // already polling
+    warmupSecondsLeft = 45;  // typical cold-start window
+    renderNews();  // re-render to show the warmup UI
+
+    const tick = () => {
+        warmupSecondsLeft = Math.max(0, warmupSecondsLeft - 3);
+        fetchNews({ silent: true });  // retry
+        // Update the UI countdown in the empty state if visible
+        const el = document.querySelector('.warmup-countdown');
+        if (el) el.textContent = warmupSecondsLeft > 0
+            ? `~${warmupSecondsLeft}s`
+            : 'Any moment now...';
+    };
+    warmupPollingId = setInterval(tick, 3000);
+}
+
+function stopWarmupPolling() {
+    if (warmupPollingId) {
+        clearInterval(warmupPollingId);
+        warmupPollingId = null;
+        warmupSecondsLeft = 0;
     }
 }
 
@@ -1254,7 +1303,6 @@ function createCard(n, isTop) {
                 <button class="icon-btn save-btn" data-id="${n.id}">${n.saved?'🔖':'📄'} Save</button>
                 <button class="icon-btn share-btn" data-id="${n.id}">📤 Share</button>
                 <button class="icon-btn copy-btn" data-id="${n.id}">📋 Copy</button>
-                <button class="icon-btn pin-btn" data-id="${n.id}">${n.pinned?'📌':'📍'} Pin</button>
             </div>
         </div>
     `;
@@ -1275,7 +1323,6 @@ function createCard(n, isTop) {
     card.querySelector('.save-btn').addEventListener('click', (e) => { e.stopPropagation(); toggleSave(n.id, e); });
     card.querySelector('.share-btn').addEventListener('click', (e) => { e.stopPropagation(); shareNews(n, e, e.currentTarget); });
     card.querySelector('.copy-btn').addEventListener('click', (e) => { e.stopPropagation(); copyNews(n.title, n.desc, e); });
-    card.querySelector('.pin-btn').addEventListener('click', (e) => { e.stopPropagation(); togglePin(n.id, e); });
     return card;
 }
 
@@ -1428,9 +1475,14 @@ window.addEventListener('click', (e) => {
     if(e.target === document.getElementById('importantModal')) hideImportantModal();
 });
 
-function stopAutoRefresh(){ if(autoInterval){ clearInterval(autoInterval); autoInterval=null; } if(countdownTimer){ clearInterval(countdownTimer); countdownTimer=null; } document.getElementById('countdownDisplay').innerText='Off'; }
+function stopAutoRefresh(){ if(autoInterval){ clearInterval(autoInterval); autoInterval=null; } if(countdownTimer){ clearInterval(countdownTimer); countdownTimer=null; } document.getElementById('countdownDisplay').innerText=''; }
 function startAutoRefresh(sec){ stopAutoRefresh(); if(sec<=0) return; let rem=sec; const upd=()=>{ document.getElementById('countdownDisplay').innerHTML=`next in ${rem}s`; if(rem<=0){ backgroundRefresh(); rem=sec; } rem--; }; upd(); countdownTimer=setInterval(upd,1000); autoInterval=setInterval(()=>backgroundRefresh(),sec*1000); }
-document.getElementById('intervalSelect').addEventListener('change',(e)=>{ const v=parseInt(e.target.value); currentIntervalSec=isNaN(v)?0:v; if(currentIntervalSec>0) startAutoRefresh(currentIntervalSec); else stopAutoRefresh(); });
+document.getElementById('intervalSelect').addEventListener('change',(e)=>{
+    const v=parseInt(e.target.value);
+    currentIntervalSec=isNaN(v)?0:v;
+    localStorage.setItem('autoRefreshSec', String(currentIntervalSec));  // remember user's choice
+    if(currentIntervalSec>0) startAutoRefresh(currentIntervalSec); else stopAutoRefresh();
+});
 document.getElementById('manualRefreshBtn').addEventListener('click',()=>refreshNews(true));
 document.getElementById('clearCacheBtn')?.addEventListener('click',()=>{
     if (!confirm('Clear all cached news, saved items, and view counts?')) return;
