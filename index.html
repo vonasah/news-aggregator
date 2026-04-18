@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Metronome News Hub — Your daily rhythm of world news</title>
+<meta name="description" content="Metronome News Hub is a curated RSS aggregator with headlines from 100+ trusted publishers across 24 categories. World, tech, economy, crypto, science and more — updated every 15 minutes. No ads, no tracking, no algorithm.">
+<meta name="keywords" content="news aggregator, RSS reader, world news, tech news, crypto news, daily news, headlines, news hub, curated news">
+<meta name="author" content="Metronome News Hub">
+<meta name="theme-color" content="#3b82f6">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+<!-- Performance: preconnect to critical origins -->
+<link rel="preconnect" href="https://news-aggregator.vonasah.deno.net">
+<link rel="preconnect" href="https://www.google.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://news-aggregator.vonasah.deno.net">
+
+<!-- Canonical URL — tells Google which version is the primary -->
+<link rel="canonical" href="https://metronome-news.deno.net/">
+
+<!-- Open Graph for social sharing (Facebook, LinkedIn, Telegram, etc.) -->
+<meta property="og:title" content="Metronome News Hub — Your daily rhythm of world news">
+<meta property="og:description" content="Curated news from 100+ trusted sources across 24 categories. Updated every 15 minutes. No ads, no tracking.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Metronome News Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23bg)'/%3E%3Cpath d='M540 470 L660 470 L620 230 L580 230 Z' fill='none' stroke='white' stroke-width='12' stroke-linejoin='round'/%3E%3Cline x1='600' y1='470' x2='550' y2='280' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3Ccircle cx='550' cy='280' r='16' fill='white'/%3E%3Ctext x='600' y='560' font-family='sans-serif' font-size='48' font-weight='800' text-anchor='middle' fill='white'%3EMetronome News Hub%3C/text%3E%3C/svg%3E">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Metronome News Hub">
+<meta name="twitter:description" content="Your daily rhythm of world news. 100+ trusted sources, 24 categories, zero noise.">
+
+<!-- JSON-LD structured data — tells search engines this is a news aggregator -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://metronome-news.deno.net/#website",
+      "url": "https://metronome-news.deno.net/",
+      "name": "Metronome News Hub",
+      "description": "Your daily rhythm of world news. Curated from 100+ trusted RSS sources.",
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://metronome-news.deno.net/?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://metronome-news.deno.net/#org",
+      "name": "Metronome News Hub",
+      "url": "https://metronome-news.deno.net/",
+      "email": "contact@metronome.news",
+      "description": "RSS-based news aggregator covering world news, technology, economy, cryptocurrency, science and 20+ more categories."
+    }
+  ]
+}
+</script>
+
+<!-- Favicon (inline SVG metronome) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='url(%23g)'/%3E%3Cpath d='M20 50 L44 50 L36 14 L28 14 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3Cline x1='32' y1='50' x2='22' y2='22' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='3' fill='white'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='url(%23g)'/%3E%3Cpath d='M20 50 L44 50 L36 14 L28 14 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3Cline x1='32' y1='50' x2='22' y2='22' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='3' fill='white'/%3E%3C/svg%3E">
+
+<!-- PWA manifest (inline via data URI) -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"Metronome News Hub","short_name":"Metronome","description":"Your daily rhythm of world news","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%233b82f6","icons":[{"src":"data:image/svg%2Bxml,%253Csvg xmlns%253D%2527http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2527 viewBox%253D%25270 0 64 64%2527%253E%253Cdefs%253E%253ClinearGradient id%253D%2527g%2527 x1%253D%25270%2525%2527 y1%253D%25270%2525%2527 x2%253D%2527100%2525%2527 y2%253D%2527100%2525%2527%253E%253Cstop offset%253D%25270%2525%2527 stop-color%253D%2527%25233b82f6%2527%252F%253E%253Cstop offset%253D%2527100%2525%2527 stop-color%253D%2527%2523f97316%2527%252F%253E%253C%252FlinearGradient%253E%253C%252Fdefs%253E%253Crect width%253D%252764%2527 height%253D%252764%2527 rx%253D%252712%2527 fill%253D%2527url(%2523g)%2527%252F%253E%253Cpath d%253D%2527M20 50 L44 50 L36 14 L28 14 Z%2527 fill%253D%2527none%2527 stroke%253D%2527white%2527 stroke-width%253D%25273%2527 stroke-linejoin%253D%2527round%2527%252F%253E%253Cline x1%253D%252732%2527 y1%253D%252750%2527 x2%253D%252722%2527 y2%253D%252722%2527 stroke%253D%2527white%2527 stroke-width%253D%25273%2527 stroke-linecap%253D%2527round%2527%252F%253E%253Ccircle cx%253D%252722%2527 cy%253D%252722%2527 r%253D%25273%2527 fill%253D%2527white%2527%252F%253E%253C%252Fsvg%253E","sizes":"512x512","type":"image/svg+xml"}]}'>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { max-width: 100%; }
+html { overflow-x: hidden; }
+body { overflow-x: clip; }
+:root {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    --border: #e2e8f0;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    --accent: #3b82f6;
+    --accent-warm: #f97316;
+    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #f97316 100%);
+    --important-high: #dc2626;
+    --important-mid: #f97316;
+    --important-low: #22c55e;
+    --top-bg: #fff7ed;
+    /* Category pastels - light */
+    --cat-world: #dbeafe; --cat-world-text: #1e40af;
+    --cat-economy: #fef3c7; --cat-economy-text: #92400e;
+    --cat-science: #e0e7ff; --cat-science-text: #3730a3;
+    --cat-space: #ede9fe; --cat-space-text: #5b21b6;
+    --cat-technology: #cffafe; --cat-technology-text: #0e7490;
+    --cat-ai: #d1fae5; --cat-ai-text: #065f46;
+    --cat-gaming: #fce7f3; --cat-gaming-text: #9f1239;
+    --cat-cryptocurrency: #fef3c7; --cat-cryptocurrency-text: #b45309;
+    --cat-health: #fee2e2; --cat-health-text: #991b1b;
+    --cat-sports: #dcfce7; --cat-sports-text: #166534;
+    --cat-entertainment: #fce7f3; --cat-entertainment-text: #be185d;
+    --cat-fashion: #fae8ff; --cat-fashion-text: #86198f;
+    --cat-socialmedia: #dbeafe; --cat-socialmedia-text: #1e3a8a;
+    --cat-analytics: #e0f2fe; --cat-analytics-text: #075985;
+    --cat-trends: #fef9c3; --cat-trends-text: #854d0e;
+    --cat-fitness: #d1fae5; --cat-fitness-text: #064e3b;
+    --cat-travel: #fed7aa; --cat-travel-text: #9a3412;
+    --cat-food: #fef3c7; --cat-food-text: #854d0e;
+    --cat-environment: #dcfce7; --cat-environment-text: #14532d;
+    --cat-politics: #fee2e2; --cat-politics-text: #7f1d1d;
+    --cat-startups: #e0e7ff; --cat-startups-text: #312e81;
+    --cat-education: #ecfccb; --cat-education-text: #365314;
+    --cat-art: #fae8ff; --cat-art-text: #701a75;
+}
+body.dark {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --border: #334155;
+    --top-bg: #2a1a0f;
+    /* Dark mode: darker backgrounds, lighter text */
+    --cat-world: #1e3a8a33; --cat-world-text: #93c5fd;
+    --cat-economy: #92400e33; --cat-economy-text: #fcd34d;
+    --cat-science: #3730a333; --cat-science-text: #a5b4fc;
+    --cat-space: #5b21b633; --cat-space-text: #c4b5fd;
+    --cat-technology: #0e749033; --cat-technology-text: #67e8f9;
+    --cat-ai: #065f4633; --cat-ai-text: #6ee7b7;
+    --cat-gaming: #9f123933; --cat-gaming-text: #fbb6ce;
+    --cat-cryptocurrency: #b4530933; --cat-cryptocurrency-text: #fcd34d;
+    --cat-health: #991b1b33; --cat-health-text: #fca5a5;
+    --cat-sports: #16653433; --cat-sports-text: #86efac;
+    --cat-entertainment: #be185d33; --cat-entertainment-text: #f9a8d4;
+    --cat-fashion: #86198f33; --cat-fashion-text: #f0abfc;
+    --cat-socialmedia: #1e3a8a33; --cat-socialmedia-text: #93c5fd;
+    --cat-analytics: #07598533; --cat-analytics-text: #7dd3fc;
+    --cat-trends: #854d0e33; --cat-trends-text: #fde047;
+    --cat-fitness: #064e3b33; --cat-fitness-text: #6ee7b7;
+    --cat-travel: #9a341233; --cat-travel-text: #fdba74;
+    --cat-food: #854d0e33; --cat-food-text: #fde047;
+    --cat-environment: #14532d33; --cat-environment-text: #86efac;
+    --cat-politics: #7f1d1d33; --cat-politics-text: #fca5a5;
+    --cat-startups: #312e8133; --cat-startups-text: #a5b4fc;
+    --cat-education: #36531433; --cat-education-text: #bef264;
+    --cat-art: #701a7533; --cat-art-text: #f0abfc;
+}
+body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); transition: background 0.2s; -webkit-tap-highlight-color: transparent; }
+.app { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+
+/* Auto-hiding sticky header — slides up when scrolling down, back in when scrolling up */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+    padding-bottom: 0.5rem;
+    transition: transform 0.25s ease;
+    will-change: transform;
+}
+.sticky-header.hidden { transform: translateY(-100%); }
+
+.header { background: var(--bg-secondary); border-radius: 1rem; padding: 0.75rem 1.5rem; box-shadow: var(--card-shadow); border: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; }
+.logo { display: flex; align-items: center; gap: 0.6rem; }
+.logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-text .logo-name { font-size: 1.1rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; }
+.logo-text .logo-sub { font-size: 0.65rem; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; }
+.stats { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-secondary); flex-wrap: wrap; }
+.stat-badge { background: var(--bg-primary); padding: 0.2rem 0.6rem; border-radius: 2rem; white-space: nowrap; }
+.time-controls { display: flex; gap: 0.75rem; align-items: center; }
+.local-time { font-family: monospace; font-weight: 600; background: var(--bg-primary); padding: 0.2rem 0.6rem; border-radius: 2rem; font-size: 0.75rem; }
+.theme-toggle { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 2rem; padding: 0.2rem 0.6rem; cursor: pointer; font-size: 1rem; }
+
+.filter-bar { background: var(--bg-secondary); border-radius: 1rem; padding: 0.75rem 1rem; margin: 0.5rem 0 1rem 0; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.category-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; max-width: 100%; }
+.cat-btn, .filter-btn { background: var(--bg-primary); border: 1px solid var(--border); padding: 0.25rem 0.7rem; border-radius: 2rem; cursor: pointer; font-size: 0.7rem; transition: all 0.1s; white-space: nowrap; color: var(--text-primary); font-family: inherit; }
+.cat-btn.active, .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* View-mode toggle (grid ▦ / list ≡) */
+.view-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 2rem; overflow: hidden; background: var(--bg-primary); margin-left: auto; }
+.view-btn { background: transparent; border: none; padding: 0.25rem 0.6rem; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); transition: background 0.1s; font-family: inherit; line-height: 1; }
+.view-btn:hover { color: var(--text-primary); }
+.view-btn.active { background: var(--accent); color: white; }
+
+/* LIST view — compact horizontal rows instead of grid cards */
+body.view-list .news-grid,
+body.view-list .top-news-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+body.view-list .news-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    min-height: auto;
+    gap: 0.8rem;
+}
+body.view-list .news-image {
+    width: 100px;
+    height: 75px;
+    min-width: 100px;
+    margin: 0;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    order: 0;
+}
+body.view-list .news-card .importance-badge { top: 0.75rem; right: 0.75rem; }
+body.view-list .news-content-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+body.view-list .cat-badge { font-size: 0.6rem; padding: 0.1rem 0.4rem; margin-bottom: 0.1rem; align-self: flex-start; }
+body.view-list .news-title {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin: 0;
+    -webkit-line-clamp: 2;
+    padding-right: 1rem;
+}
+body.view-list .news-desc {
+    font-size: 0.78rem;
+    -webkit-line-clamp: 2;
+    margin: 0;
+    color: var(--text-tertiary);
+}
+body.view-list .news-source-line { font-size: 0.72rem; margin: 0; }
+body.view-list .news-meta { font-size: 0.65rem; gap: 0.4rem; margin: 0; padding-top: 0.15rem; }
+body.view-list .news-actions { display: none; } /* hide action row in list mode */
+body.view-list .news-card.top-news { animation: none; box-shadow: var(--card-shadow); border-left-width: 3px; }
+
+@media (max-width: 768px) {
+    body.view-list .news-card { padding: 0.6rem; gap: 0.6rem; }
+    body.view-list .news-image { width: 70px; height: 60px; min-width: 70px; }
+    body.view-list .news-title { font-size: 0.85rem; -webkit-line-clamp: 2; }
+    body.view-list .news-desc { -webkit-line-clamp: 1; font-size: 0.72rem; }
+    body.view-list .news-meta { display: none; } /* save space on mobile list */
+}
+
+.search-box { flex: 1; min-width: 150px; position: relative; }
+.search-box input { width: 100%; padding: 0.45rem 0.7rem 0.45rem 2rem; border-radius: 2rem; border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-primary); font-size: 0.75rem; transition: all 0.2s ease; font-family: inherit; }
+.search-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+.search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: var(--text-secondary); pointer-events: none; }
+.search-clear { position: absolute; right: 0.7rem; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--text-secondary); cursor: pointer; opacity: 0.6; transition: opacity 0.2s; display: none; }
+.search-clear:hover { opacity: 1; }
+.search-box input:not(:placeholder-shown) + .search-clear { display: block; }
+
+.auto-panel { background: var(--bg-secondary); border-radius: 1rem; padding: 0.5rem 1rem; margin-bottom: 1rem; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; }
+.auto-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+select, button { background: var(--bg-primary); border: 1px solid var(--border); padding: 0.3rem 0.6rem; border-radius: 0.5rem; cursor: pointer; color: var(--text-primary); font-size: 0.7rem; font-family: inherit; }
+button.primary { background: var(--accent); color: white; border: none; }
+.countdown { font-family: monospace; font-size: 0.7rem; }
+.hide-on-mobile { display: inline-block; }
+
+/* "New articles" floating banner — bottom-left so it doesn't overlap content */
+.new-articles-banner { position: fixed; bottom: 20px; left: 20px; transform: translateY(30px); background: var(--accent); color: white; padding: 0.6rem 1.1rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 500; cursor: pointer; z-index: 150; box-shadow: 0 6px 20px rgba(59,130,246,0.4); opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; border: none; font-family: inherit; }
+.new-articles-banner.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.new-articles-banner:hover { background: #2563eb; }
+
+/* Pull-to-refresh indicator */
+.ptr-indicator { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--text-secondary); background: var(--bg-primary); transform: translateY(-60px); transition: transform 0.2s; z-index: 50; pointer-events: none; }
+.ptr-indicator.visible { transform: translateY(0); }
+.ptr-indicator.refreshing { animation: ptr-spin 1s linear infinite; }
+@keyframes ptr-spin { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+.top-section { margin-bottom: 1.5rem; }
+.top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.5rem; gap: 0.5rem; position: relative; border-bottom: none; }
+/* Animated gradient underline for BREAKING section */
+.top-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--important-high) 15%, var(--important-high) 85%, transparent);
+    background-size: 200% 100%;
+    animation: breaking-line 3s ease-in-out infinite;
+}
+@keyframes breaking-line {
+    0%, 100% { background-position: 0% 0; opacity: 0.9; }
+    50% { background-position: 100% 0; opacity: 1; }
+}
+.top-header-left { display: flex; align-items: center; gap: 0.5rem; }
+.top-header-left h2 { font-size: 1rem; font-weight: 700; color: var(--important-high); display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.02em; }
+/* Pulsing red dot — compact breathing animation (no glow waves) */
+.top-header-left h2::before {
+    content: '';
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--important-high);
+    animation: heartbeat 1.3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.35); opacity: 0.75; }
+}
+.collapse-btn { background: none; border: 1px solid var(--border); border-radius: 2rem; padding: 0.15rem 0.5rem; cursor: pointer; font-size: 0.7rem; color: var(--text-secondary); }
+.show-all-btn { background: none; border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 2rem; font-size: 0.65rem; cursor: pointer; color: var(--text-primary); white-space: nowrap; }
+.top-news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+.top-section.collapsed .top-news-grid { display: none; }
+
+/* BREAKING cards — subtle glow pulse. Draws attention without being obnoxious. */
+.news-card.top-news {
+    border-left: 4px solid var(--important-high);
+    background: var(--top-bg);
+    animation: breaking-glow 4s ease-in-out infinite;
+}
+@keyframes breaking-glow {
+    0%, 100% { box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 0 0 0 rgba(220, 38, 38, 0); }
+    50% { box-shadow: 0 2px 14px rgba(220, 38, 38, 0.15), 0 0 0 1px rgba(220, 38, 38, 0.08); }
+}
+/* Accessibility: honor user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .top-header::after, .top-header-left h2::before, .news-card.top-news { animation: none; }
+    .sticky-header { transition: none; }
+}
+
+.regular-header { margin: 1rem 0 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.regular-header h2 { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); }
+
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+
+/* ==================== CARD ==================== */
+.news-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.15s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+}
+.news-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.news-card.pinned { border-top: 3px solid var(--accent); }
+.importance-badge { position: absolute; top: 0.85rem; right: 0.85rem; width: 8px; height: 8px; border-radius: 50%; }
+.importance-high { background: var(--important-high); }
+.importance-mid { background: var(--important-mid); }
+.importance-low { background: var(--important-low); }
+
+.cat-badge { display: inline-flex; align-items: center; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.03em; padding: 0.2rem 0.55rem; border-radius: 2rem; margin-bottom: 0.65rem; text-transform: uppercase; }
+
+.news-title {
+    font-weight: 700; font-size: 1.1rem; line-height: 1.3;
+    margin-bottom: 0.7rem; padding-right: 1.2rem;
+    color: var(--text-primary);
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.news-desc {
+    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55;
+    margin-bottom: 0.85rem; flex: 1;
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-source-line { font-size: 0.8rem; color: var(--accent); margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+.news-source-line a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.news-source-line a:hover { text-decoration: underline; }
+
+.news-meta { font-size: 0.7rem; color: var(--text-tertiary); display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.75rem; align-items: center; }
+.news-meta span { display: inline-flex; align-items: center; gap: 0.25rem; }
+
+.news-actions { display: flex; gap: 0.25rem; padding-top: 0.65rem; border-top: 1px solid var(--border); justify-content: flex-start; flex-wrap: wrap; }
+.icon-btn { background: none; border: none; cursor: pointer; font-size: 0.8rem; padding: 0.35rem 0.6rem; border-radius: 0.4rem; transition: background 0.1s; display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-family: inherit; }
+.icon-btn:hover { background: var(--bg-primary); color: var(--text-primary); }
+.views-count { font-size: 0.65rem; color: var(--text-tertiary); }
+
+/* Image thumbnail in card */
+.news-image { width: calc(100% + 2.5rem); height: 180px; margin: -1.25rem -1.25rem 0.85rem -1.25rem; overflow: hidden; border-radius: 1rem 1rem 0 0; background: var(--bg-primary); position: relative; }
+.news-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; background: var(--bg-primary); }
+.news-card:hover .news-image img { transform: scale(1.03); }
+.news-image.broken { display: none; }
+
+/* Source favicon */
+.source-favicon { width: 16px; height: 16px; border-radius: 3px; vertical-align: middle; margin-right: 0.1rem; }
+
+/* Infinite scroll trigger */
+.load-more-sentinel { height: 60px; display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 2rem; }
+.load-more-sentinel.loading::before { content: "⟳ "; animation: spin 1s linear infinite; display: inline-block; margin-right: 0.3rem; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.end-of-feed { text-align: center; padding: 2rem 1rem; color: var(--text-tertiary); font-size: 0.85rem; border-top: 1px dashed var(--border); margin-top: 1rem; }
+
+/* Skeleton loaders */
+.skeleton-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.skeleton-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem; min-height: 220px; }
+.skeleton-line { background: var(--bg-primary); border-radius: 4px; height: 14px; animation: skeleton-pulse 1.4s ease-in-out infinite; margin-bottom: 0.6rem; }
+.skeleton-line.title { height: 18px; width: 85%; }
+.skeleton-line.title-2 { height: 18px; width: 60%; margin-bottom: 1rem; }
+.skeleton-line.desc { width: 100%; }
+.skeleton-line.desc-short { width: 70%; }
+@keyframes skeleton-pulse { 0%,100%{opacity:0.5;}50%{opacity:1;} }
+
+/* ==================== MODAL ==================== */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; padding: 1rem; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+.modal.visible { display: flex; opacity: 1; }
+.modal-content { background: var(--bg-secondary); border-radius: 1rem; max-width: 640px; width: 100%; padding: 1.5rem; max-height: 85vh; overflow-y: auto; position: relative; transform: translateY(10px); transition: transform 0.2s; }
+.modal.visible .modal-content { transform: translateY(0); }
+.modal-close-x { position: absolute; top: 0.75rem; right: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-family: inherit; }
+.modal-close-x:hover { background: var(--border); color: var(--text-primary); }
+.modal-content h3 { font-size: 1.35rem; line-height: 1.3; margin-bottom: 1rem; padding-right: 2.5rem; color: var(--text-primary); }
+.modal-body-text { line-height: 1.65; margin: 0.8rem 0; font-size: 0.95rem; color: var(--text-secondary); word-wrap: break-word; overflow-wrap: break-word; }
+.modal-body-text p { margin-bottom: 0.9rem; }
+.modal-body-text a { color: var(--accent); }
+.modal-body-text ul, .modal-body-text ol { margin: 0.8rem 0 0.8rem 1.5rem; }
+.modal-body-text li { margin-bottom: 0.4rem; }
+.modal-body-text img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 0.8rem 0; }
+.modal-body-text blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 0.8rem 0; color: var(--text-tertiary); }
+.modal-source { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
+.modal-source a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.modal-actions { display: flex; gap: 0.4rem; margin: 1rem 0; flex-wrap: wrap; }
+.modal-buttons { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.8rem; }
+
+/* ==================== SHARE MENU ==================== */
+.share-menu { display: none; position: fixed; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 1200; min-width: 200px; }
+.share-menu.open { display: block; }
+.share-menu button { display: flex; align-items: center; gap: 0.6rem; width: 100%; padding: 0.55rem 0.75rem; background: none; border: none; border-radius: 0.4rem; cursor: pointer; font-size: 0.85rem; text-align: left; color: var(--text-primary); transition: background 0.1s; font-family: inherit; }
+.share-menu button:hover { background: var(--bg-primary); }
+.share-menu .share-icon { font-size: 1rem; width: 1.2rem; text-align: center; }
+
+.toast { position: fixed; bottom: 20px; right: 20px; background: #1e293b; color: white; padding: 0.5rem 1rem; border-radius: 2rem; z-index: 1100; font-size: 0.75rem; max-width: 80vw; }
+
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); }
+.empty-state .emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.empty-state p { font-size: 0.9rem; margin-bottom: 0.25rem; }
+.empty-state small { font-size: 0.75rem; opacity: 0.7; }
+
+/* Footer */
+.site-footer { margin-top: 3rem; padding: 2rem 1.5rem 1.5rem 1.5rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 1rem; }
+.footer-top { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+.footer-brand { display: flex; align-items: center; gap: 0.7rem; max-width: 340px; }
+.footer-brand .logo-icon { width: 44px; height: 44px; }
+.footer-brand-text { line-height: 1.3; }
+.footer-brand-name { font-size: 1.1rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.footer-brand-tagline { font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.2rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: flex-start; }
+.footer-links button { background: none; border: none; color: var(--text-secondary); font-size: 0.8rem; cursor: pointer; padding: 0.2rem 0; font-family: inherit; }
+.footer-links button:hover { color: var(--accent); text-decoration: underline; }
+.footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; font-size: 0.72rem; color: var(--text-tertiary); }
+.footer-bottom .disclaimer { max-width: 600px; }
+
+/* Sources modal list */
+.sources-list { columns: 2; column-gap: 1.5rem; font-size: 0.85rem; }
+.sources-list h4 { font-size: 0.9rem; color: var(--text-primary); margin: 0.8rem 0 0.3rem 0; font-weight: 600; break-after: avoid; }
+.sources-list h4:first-child { margin-top: 0; }
+.sources-list ul { list-style: none; padding: 0; margin-bottom: 0.5rem; }
+.sources-list li { padding: 0.15rem 0; color: var(--text-secondary); line-height: 1.5; break-inside: avoid; }
+.sources-list a { color: var(--accent); text-decoration: none; }
+.sources-list a:hover { text-decoration: underline; }
+.static-modal-body p { margin-bottom: 0.9rem; line-height: 1.65; }
+.static-modal-body h4 { font-weight: 600; margin: 1rem 0 0.4rem 0; font-size: 1rem; color: var(--text-primary); }
+.static-modal-body ul { margin: 0.5rem 0 0.5rem 1.5rem; }
+.static-modal-body li { margin-bottom: 0.3rem; }
+.static-modal-body a { color: var(--accent); }
+
+/* ==================== MOBILE ==================== */
+@media (max-width: 768px) {
+    .app { padding: 0.5rem; }
+    .header { padding: 0.5rem 1rem; }
+    .logo-icon { width: 28px; height: 28px; }
+    .logo-text .logo-name { font-size: 0.95rem; }
+    .logo-text .logo-sub { font-size: 0.55rem; }
+    .stats { gap: 0.3rem; font-size: 0.65rem; }
+    .stat-badge { font-size: 0.65rem; padding: 0.15rem 0.4rem; }
+    .local-time { font-size: 0.65rem; }
+    .theme-toggle { font-size: 0.8rem; padding: 0.15rem 0.4rem; }
+    .filter-bar { padding: 0.5rem; gap: 0.4rem; flex-direction: column; align-items: stretch; }
+    .category-buttons { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.2rem; width: 100%; scrollbar-width: thin; }
+    .cat-btn, .filter-btn { font-size: 0.65rem; padding: 0.2rem 0.5rem; white-space: nowrap; flex-shrink: 0; }
+    .search-box { width: 100%; }
+    .auto-panel { flex-direction: column; align-items: stretch; gap: 0.4rem; padding: 0.5rem; }
+    .auto-controls { justify-content: space-between; }
+    .hide-on-mobile { display: none; }
+    .news-grid, .top-news-grid, .skeleton-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .news-card { padding: 1rem; min-height: auto; }
+    .news-image { height: 160px; width: calc(100% + 2rem); margin: -1rem -1rem 0.7rem -1rem; }
+    .news-title { font-size: 1rem; }
+    .news-desc { font-size: 0.8rem; }
+    .icon-btn { font-size: 0.75rem; padding: 0.3rem 0.45rem; }
+    .modal { display: none !important; }
+    .new-articles-banner { bottom: 80px; left: 10px; right: 10px; font-size: 0.8rem; padding: 0.5rem 1rem; text-align: center; }
+    .site-footer { padding: 1.5rem 1rem; }
+    .footer-top { flex-direction: column; gap: 1rem; }
+    .sources-list { columns: 1; }
+}
+</style>
+</head>
+<body>
+<div id="ptrIndicator" class="ptr-indicator">↓ Pull to refresh</div>
+<div id="newArticlesBanner" class="new-articles-banner" role="button">↑ New articles available</div>
+
+<div class="app">
+    <div class="sticky-header">
+        <div class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Metronome logo">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3b82f6"/>
+                            <stop offset="100%" stop-color="#f97316"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="12" fill="url(#logoGrad)"/>
+                    <path d="M20 50 L44 50 L36 14 L28 14 Z" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+                    <line x1="32" y1="50" x2="22" y2="22" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="22" cy="22" r="3" fill="white"/>
+                </svg>
+                <div class="logo-text">
+                    <div class="logo-name">Metronome</div>
+                    <div class="logo-sub">News Hub</div>
+                </div>
+            </div>
+            <div class="stats" id="stats"></div>
+            <div class="time-controls">
+                <div class="local-time" id="localTime">--:--:-- UTC</div>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="category-buttons" id="categoryButtons"></div>
+            <div style="display: flex; gap: 0.3rem; flex-wrap: wrap;">
+                <button class="filter-btn" id="topImportantBtn">⭐ Top</button>
+                <button class="filter-btn" id="hideReadBtn">🙈 Hide</button>
+                <button class="filter-btn" id="showSavedBtn">🔖 Saved</button>
+                <button class="filter-btn" id="clearFiltersBtn">✖ Clear</button>
+            </div>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search news...">
+                <span class="search-clear" id="searchClear">✖</span>
+            </div>
+        </div>
+
+        <div class="auto-panel">
+            <div class="auto-controls">
+                <span style="font-size:0.7rem;">⚡ Auto:</span>
+                <select id="intervalSelect">
+                    <option value="0">Off</option>
+                    <option value="30">30s</option>
+                    <option value="60" selected>1m</option>
+                    <option value="300">5m</option>
+                </select>
+                <button id="manualRefreshBtn" class="primary">🔄 Now</button>
+                <span id="countdownDisplay" class="countdown">next in 60s</span>
+                <div class="view-toggle" role="group" aria-label="View mode">
+                    <button class="view-btn" id="viewGridBtn" title="Grid view" aria-label="Grid view">▦</button>
+                    <button class="view-btn" id="viewListBtn" title="List view" aria-label="List view">≡</button>
+                </div>
+            </div>
+            <div class="hide-on-mobile">
+                <button id="clearCacheBtn" style="font-size:0.7rem;">🗑️ Clear all</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="topSection" class="top-section" style="display:none;">
+        <div class="top-header">
+            <div class="top-header-left">
+                <h2>BREAKING • TOP 3</h2>
+                <button class="collapse-btn" id="collapseTopBtn" data-collapsed="false">−</button>
+            </div>
+            <button id="showAllImportantBtn" class="show-all-btn">📋 Show all →</button>
+        </div>
+        <div id="topNewsContainer" class="top-news-grid"></div>
+    </div>
+
+    <div class="regular-header"><h2>📰 LATEST NEWS</h2></div>
+    <div id="newsContainer" class="news-grid"></div>
+
+    <div id="loadMoreSentinel" class="load-more-sentinel" style="display:none;">Loading more…</div>
+    <div id="endOfFeed" class="end-of-feed" style="display:none;">— end of feed —</div>
+
+    <div id="skeletonLoader" class="skeleton-grid" style="display:none;"></div>
+
+    <div id="emptyState" class="empty-state" style="display:none;">
+        <div class="emoji">📭</div>
+        <p>No news to display</p>
+        <small id="emptyStateHint">Try clearing filters or waiting for the next refresh</small>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <svg class="logo-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Metronome">
+                    <defs>
+                        <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3b82f6"/>
+                            <stop offset="100%" stop-color="#f97316"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="64" height="64" rx="12" fill="url(#footerGrad)"/>
+                    <path d="M20 50 L44 50 L36 14 L28 14 Z" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+                    <line x1="32" y1="50" x2="22" y2="22" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="22" cy="22" r="3" fill="white"/>
+                </svg>
+                <div class="footer-brand-text">
+                    <div class="footer-brand-name">Metronome News Hub</div>
+                    <div class="footer-brand-tagline">Your daily rhythm of world news</div>
+                </div>
+            </div>
+            <div class="footer-links">
+                <button id="footerAboutBtn">About</button>
+                <button id="footerPrivacyBtn">Privacy</button>
+                <button id="footerTermsBtn">Terms</button>
+                <button id="footerSourcesBtn">Sources</button>
+                <button id="footerContactBtn">Contact</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Metronome News Hub. All rights reserved.</div>
+            <div class="disclaimer">Aggregated content remains the property of its respective publishers.</div>
+        </div>
+    </footer>
+</div>
+
+<!-- Static-content modal (About/Privacy/Terms/Contact/Sources) -->
+<div id="staticModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-x" id="closeStaticX">✕</button>
+        <h3 id="staticModalTitle"></h3>
+        <div id="staticModalBody" class="static-modal-body"></div>
+        <div class="modal-buttons">
+            <button id="closeStaticBtn" style="padding:0.4rem 0.8rem; background:var(--accent); color:white; border:none; border-radius:0.5rem; cursor:pointer;">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="importantModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-x" id="closeImportantX">✕</button>
+        <h3>📋 All Important News</h3>
+        <div id="importantModalList" style="max-height: 60vh; overflow-y: auto; margin: 1rem 0;"></div>
+        <button id="closeImportantModal" style="padding:0.4rem 0.8rem; background:var(--accent); color:white; border:none; border-radius:0.5rem; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close-x" id="closeModalX">✕</button>
+        <h3 id="modalTitle"></h3>
+        <div id="modalBody" class="modal-body-text"></div>
+        <div class="modal-source" id="modalSourceLink"></div>
+        <div class="modal-actions" id="modalActions"></div>
+        <div class="modal-buttons"><button id="closeModal" style="padding:0.4rem 0.8rem; background:var(--bg-primary); border:1px solid var(--border); border-radius:0.5rem; cursor:pointer;">Close</button></div>
+    </div>
+</div>
+
+<div id="shareMenu" class="share-menu"></div>
+<div id="toast" class="toast" style="display:none;"></div>
+
+<script>
+// ==================== CONFIG ====================
+const API_BASE_URL = "https://news-aggregator.vonasah.deno.net";
+const MAX_NEWS_CACHE = 500;
+const MOBILE_BREAKPOINT = 768;
+const PAGE_SIZE = 30;
+const DEFAULT_CATEGORIES = ['World', 'Economy', 'Cryptocurrency'];
+
+let allNews = [];
+let nextId = 1;
+let savedNewsIds = new Set(JSON.parse(localStorage.getItem('savedNews')||'[]'));
+let readNewsIds = new Set(JSON.parse(localStorage.getItem('readNews')||'[]'));
+let pinnedNewsIds = new Set(JSON.parse(localStorage.getItem('pinnedNews')||'[]'));
+let newsViews = JSON.parse(localStorage.getItem('newsViews')||'{}');
+
+// Load persisted filter categories. First-time visitors get DEFAULT_CATEGORIES.
+function loadInitialCategories() {
+    const stored = localStorage.getItem('filterCategories');
+    if (stored !== null) {
+        // User has interacted before — respect their saved choice (even if it's empty)
+        try { return new Set(JSON.parse(stored)); } catch { return new Set(DEFAULT_CATEGORIES); }
+    }
+    // First visit ever — apply defaults and persist immediately
+    localStorage.setItem('filterCategories', JSON.stringify(DEFAULT_CATEGORIES));
+    return new Set(DEFAULT_CATEGORIES);
+}
+function persistCategories() {
+    localStorage.setItem('filterCategories', JSON.stringify([...currentFilters.categories]));
+}
+
+let currentFilters = { categories: loadInitialCategories(), topImportant: false, hideRead: false, showSaved: false, search: '' };
+let autoInterval = null, currentIntervalSec = 60, countdownTimer = null;
+let hasEverLoaded = false;
+let pendingNewCount = 0;
+let displayedCount = PAGE_SIZE;  // for infinite scroll
+let scrollObserver = null;
+let currentView = localStorage.getItem('viewMode') || 'grid';  // 'grid' | 'list'
+
+const categoriesList = ['World', 'Economy', 'Science', 'Space', 'Technology', 'AI', 'Gaming', 'Cryptocurrency', 'Health', 'Sports', 'Entertainment', 'Fashion', 'Social Media', 'Analytics', 'Trends', 'Fitness', 'Travel', 'Food', 'Environment', 'Politics', 'Startups', 'Education', 'Art'];
+
+const CATEGORY_ALIASES = {
+    'business': 'Economy', 'economy': 'Economy',
+    'socialmedia': 'Social Media', 'social_media': 'Social Media', 'social media': 'Social Media',
+    'general': 'World', 'top': 'World'
+};
+function normalizeCategory(raw) {
+    if (!raw) return 'World';
+    const key = String(raw).toLowerCase().trim();
+    if (CATEGORY_ALIASES[key]) return CATEGORY_ALIASES[key];
+    const match = categoriesList.find(c => c.toLowerCase() === key);
+    if (match) return match;
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+function categoryCssKey(cat) { return cat.toLowerCase().replace(/\s+/g, ''); }
+
+function isMobile() { return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches; }
+
+function getImportanceClass(imp) { return imp>=8?'importance-high':imp>=5?'importance-mid':'importance-low'; }
+
+function incrementViews(id) { newsViews[id] = (newsViews[id] || 0) + 1; localStorage.setItem('newsViews', JSON.stringify(newsViews)); }
+function getViews(id) { return newsViews[id] || 0; }
+
+function getTimeAgo(dateString) {
+    if (!dateString) return 'Unknown';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'Unknown';
+    const now = new Date();
+    const diffMs = now - date;
+    if (diffMs < 0) return 'Just now';
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffMins < 1440) return `${Math.floor(diffMins/60)}h ago`;
+    if (diffMins < 2880) return 'Yesterday';
+    return `${Math.floor(diffMins/1440)}d ago`;
+}
+
+const _decoder = document.createElement('textarea');
+function decodeHtmlEntities(str) { if (!str) return ''; _decoder.innerHTML = String(str); return _decoder.value; }
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function stripHtml(html) {
+    if (!html) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = String(html);
+    return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function safeUrl(url) {
+    if (!url || url === '#') return null;
+    try {
+        const u = new URL(url, window.location.origin);
+        if (u.protocol === 'http:' || u.protocol === 'https:') return u.href;
+        return null;
+    } catch { return null; }
+}
+
+function sanitizeHtml(html) {
+    if (!html) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = String(html);
+    tmp.querySelectorAll('script, style, iframe, object, embed, form, input, button, link, meta').forEach(el => el.remove());
+    tmp.querySelectorAll('*').forEach(el => {
+        const tag = el.tagName.toLowerCase();
+        [...el.attributes].forEach(attr => {
+            const name = attr.name.toLowerCase();
+            const value = attr.value;
+            if (tag === 'a' && name === 'href') {
+                const safe = safeUrl(value);
+                if (safe) { el.setAttribute('href', safe); el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener noreferrer'); }
+                else el.removeAttribute('href');
+            } else if (tag === 'img' && name === 'src') {
+                const safe = safeUrl(value);
+                if (safe) el.setAttribute('src', safe); else el.removeAttribute('src');
+            } else if (tag === 'img' && name === 'alt') {
+                // keep
+            } else {
+                el.removeAttribute(attr.name);
+            }
+        });
+    });
+    return tmp.innerHTML;
+}
+
+function computeImportance(article) {
+    if (typeof article.importance === 'number' && !isNaN(article.importance)) {
+        return Math.max(1, Math.min(10, article.importance));
+    }
+    const title = (article.title || '').toLowerCase();
+    let bonus = 0;
+    if (/\b(breaking|urgent|alert|just in|exclusive)\b/.test(title)) bonus = 2;
+    else if (/\b(major|crisis|warning|dies|killed|attack|war)\b/.test(title)) bonus = 1;
+    let h = 0;
+    const s = article.title || article.url || 'x';
+    for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    const base = 3 + (Math.abs(h) % 5);
+    return Math.max(1, Math.min(10, base + bonus));
+}
+
+// ==================== SKELETON ====================
+function renderSkeletons(count = 9) {
+    const s = document.getElementById('skeletonLoader');
+    s.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        s.innerHTML += `<div class="skeleton-card">
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line title-2"></div>
+            <div class="skeleton-line desc"></div>
+            <div class="skeleton-line desc"></div>
+            <div class="skeleton-line desc-short"></div>
+        </div>`;
+    }
+    s.style.display = 'grid';
+}
+function hideSkeletons() { document.getElementById('skeletonLoader').style.display = 'none'; }
+
+// ==================== FETCH ====================
+async function fetchNews(options = {}) {
+    const { silent = false, isBackground = false } = options;
+    if (!silent) showToast('📡 Fetching latest news...');
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/news?category=all`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (data.status !== 'success' || !Array.isArray(data.data)) throw new Error('Invalid response');
+
+        if (data.data.length === 0) {
+            hasEverLoaded = true;
+            renderNews();
+            if (!silent) showToast('⚠️ No articles available yet');
+            return;
+        }
+
+        const newNews = data.data.map((article) => {
+            const safeUrlValue = safeUrl(article.url);
+            const published = article.published_at ? new Date(article.published_at) : null;
+            const validPublished = published && !isNaN(published.getTime());
+            const rawDesc = article.description || '';
+            const rawContent = article.content || article.description || article.title || '';
+            return {
+                id: nextId++,
+                title: decodeHtmlEntities(article.title || 'Untitled'),
+                desc: decodeHtmlEntities(rawDesc),
+                fullText: rawContent,
+                category: normalizeCategory(article.category),
+                importance: computeImportance(article),
+                source: article.source || 'News',
+                time: getTimeAgo(article.published_at),
+                timestamp: validPublished ? published.getTime() : 0,
+                url: safeUrlValue,
+                imageUrl: safeUrl(article.image_url) || null,
+                read: false, saved: false, pinned: false, views: 0
+            };
+        });
+
+        const existingKeys = new Set();
+        allNews.forEach(n => { existingKeys.add(n.url || ('t:' + n.title.toLowerCase().slice(0, 80))); });
+        const uniqueNew = newNews.filter(n => {
+            const key = n.url || ('t:' + n.title.toLowerCase().slice(0, 80));
+            if (existingKeys.has(key)) return false;
+            existingKeys.add(key);
+            return true;
+        });
+
+        if (isBackground && uniqueNew.length > 0 && hasEverLoaded) {
+            // Don't merge yet — show "new articles" banner instead
+            pendingNewCount += uniqueNew.length;
+            window._pendingNewItems = (window._pendingNewItems || []).concat(uniqueNew);
+            showNewArticlesBanner();
+            return;
+        }
+
+        allNews = [...uniqueNew, ...allNews].slice(0, MAX_NEWS_CACHE);
+        allNews.sort((a,b) => b.timestamp - a.timestamp);
+        hasEverLoaded = true;
+        persist();
+        renderNews();
+        if (!silent) {
+            if (uniqueNew.length > 0) showToast(`✅ ${uniqueNew.length} new articles loaded`);
+            else showToast('✓ Already up to date');
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        if (!silent) showToast(`⚠️ ${error.message || 'Fetch failed'}`);
+        if (!hasEverLoaded) renderNews();
+    }
+}
+
+function refreshNews(showLoader=true) {
+    if (showLoader && allNews.length === 0) renderSkeletons(9);
+    fetchNews().finally(() => hideSkeletons());
+}
+
+function backgroundRefresh() { fetchNews({ silent: true, isBackground: true }); }
+
+function showNewArticlesBanner() {
+    const banner = document.getElementById('newArticlesBanner');
+    banner.textContent = `↑ ${pendingNewCount} new article${pendingNewCount === 1 ? '' : 's'} — tap to load`;
+    banner.classList.add('visible');
+}
+function hideNewArticlesBanner() {
+    document.getElementById('newArticlesBanner').classList.remove('visible');
+    pendingNewCount = 0;
+    window._pendingNewItems = [];
+}
+function applyPendingArticles() {
+    const pending = window._pendingNewItems || [];
+    if (pending.length === 0) { hideNewArticlesBanner(); return; }
+    allNews = [...pending, ...allNews].slice(0, MAX_NEWS_CACHE);
+    allNews.sort((a,b) => b.timestamp - a.timestamp);
+    persist();
+    renderNews();
+    showToast(`✅ ${pending.length} new article${pending.length === 1 ? '' : 's'} loaded`);
+    hideNewArticlesBanner();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function persist() {
+    localStorage.setItem('savedNews', JSON.stringify([...savedNewsIds]));
+    localStorage.setItem('readNews', JSON.stringify([...readNewsIds]));
+    localStorage.setItem('pinnedNews', JSON.stringify([...pinnedNewsIds]));
+    allNews.forEach(n => { n.saved = savedNewsIds.has(n.id); n.read = readNewsIds.has(n.id); n.pinned = pinnedNewsIds.has(n.id); n.views = getViews(n.id); });
+}
+
+function toggleSave(id, e) { if(e) e.stopPropagation(); if(savedNewsIds.has(id)) savedNewsIds.delete(id); else savedNewsIds.add(id); persist(); renderNews(); showToast(savedNewsIds.has(id)?'🔖 Saved':'📄 Removed'); }
+function togglePin(id, e) { if(e) e.stopPropagation(); if(pinnedNewsIds.has(id)) pinnedNewsIds.delete(id); else pinnedNewsIds.add(id); localStorage.setItem('pinnedNews', JSON.stringify([...pinnedNewsIds])); renderNews(); showToast(pinnedNewsIds.has(id)?'📌 Pinned':'📍 Unpinned'); }
+function markRead(id) { if(!readNewsIds.has(id)) { readNewsIds.add(id); incrementViews(id); persist(); renderNews(); } }
+function copyNews(title, desc, e) { if(e) e.stopPropagation(); navigator.clipboard.writeText(`${title}\n\n${desc}\n\n— via Global News Hub`); showToast('📋 Copied!'); }
+
+// ==================== SHARE ====================
+const shareMenu = document.getElementById('shareMenu');
+function hideShareMenu() { shareMenu.classList.remove('open'); }
+document.addEventListener('click', (e) => { if (!shareMenu.contains(e.target) && !e.target.closest?.('.share-btn')) hideShareMenu(); });
+document.addEventListener('scroll', hideShareMenu, true);
+
+function buildShareMenu(news, shareUrl) {
+    const t = encodeURIComponent(news.title);
+    const u = encodeURIComponent(shareUrl);
+    const textPlusUrl = encodeURIComponent(`${news.title}\n\n${shareUrl}`);
+    const emailBody = encodeURIComponent(`${news.title}\n\n${news.desc}\n\nRead more: ${shareUrl}`);
+    const targets = [
+        { label: 'X / Twitter', icon: '𝕏', url: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
+        { label: 'Facebook', icon: '📘', url: `https://www.facebook.com/sharer/sharer.php?u=${u}` },
+        { label: 'Telegram', icon: '✈️', url: `https://t.me/share/url?url=${u}&text=${t}` },
+        { label: 'WhatsApp', icon: '💬', url: `https://wa.me/?text=${textPlusUrl}` },
+        { label: 'LinkedIn', icon: '💼', url: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
+        { label: 'Reddit', icon: '🤖', url: `https://www.reddit.com/submit?url=${u}&title=${t}` },
+        { label: 'Email', icon: '✉️', url: `mailto:?subject=${t}&body=${emailBody}` },
+    ];
+    shareMenu.innerHTML = '';
+    targets.forEach(tgt => {
+        const btn = document.createElement('button');
+        btn.innerHTML = `<span class="share-icon">${tgt.icon}</span>${tgt.label}`;
+        btn.onclick = (ev) => { ev.stopPropagation(); window.open(tgt.url, '_blank', 'noopener,noreferrer'); hideShareMenu(); };
+        shareMenu.appendChild(btn);
+    });
+    const copyBtn = document.createElement('button');
+    copyBtn.innerHTML = `<span class="share-icon">🔗</span>Copy link`;
+    copyBtn.onclick = (ev) => { ev.stopPropagation(); navigator.clipboard.writeText(shareUrl); showToast('🔗 Link copied'); hideShareMenu(); };
+    shareMenu.appendChild(copyBtn);
+}
+
+function positionShareMenu(buttonEl) {
+    const rect = buttonEl.getBoundingClientRect();
+    const menuW = 220, menuH = 340;
+    let left = rect.left, top = rect.bottom + 6;
+    if (left + menuW > window.innerWidth - 8) left = window.innerWidth - menuW - 8;
+    if (left < 8) left = 8;
+    if (top + menuH > window.innerHeight - 8) top = rect.top - menuH - 6;
+    shareMenu.style.left = `${left}px`;
+    shareMenu.style.top = `${top}px`;
+    shareMenu.style.transform = 'none';
+}
+
+async function shareNews(news, e, buttonEl) {
+    if(e) e.stopPropagation();
+    const fallback = `${window.location.origin}${window.location.pathname}#news-${news.id}`;
+    const shareUrl = news.url || fallback;
+    if (navigator.share) {
+        try {
+            await navigator.share({ title: news.title, text: news.desc, url: shareUrl });
+            return;
+        } catch (err) { if (err && err.name === 'AbortError') return; }
+    }
+    buildShareMenu(news, shareUrl);
+    if (buttonEl) positionShareMenu(buttonEl);
+    else { shareMenu.style.left = '50%'; shareMenu.style.top = '50%'; shareMenu.style.transform = 'translate(-50%, -50%)'; }
+    shareMenu.classList.add('open');
+}
+
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(t._timer); t._timer = setTimeout(()=>t.style.display='none', 2500); }
+
+function getTopImportant(all) { return all.filter(n => n.importance >= 7).sort((a,b) => b.importance - a.importance || b.timestamp - a.timestamp).slice(0, 3); }
+function getAllImportant(all) { return all.filter(n => n.importance >= 7).sort((a,b) => b.importance - a.importance || b.timestamp - a.timestamp); }
+
+function renderNews(opts = {}) {
+    const { resetPagination = true } = opts;
+    if (resetPagination) displayedCount = PAGE_SIZE;
+
+    let filtered = [...allNews];
+    if(currentFilters.categories.size) filtered = filtered.filter(n => currentFilters.categories.has(n.category));
+    if(currentFilters.topImportant) filtered = filtered.filter(n => n.importance >= 7);
+    if(currentFilters.hideRead) filtered = filtered.filter(n => !n.read);
+    if(currentFilters.showSaved) filtered = filtered.filter(n => n.saved);
+    if(currentFilters.search) filtered = filtered.filter(n => n.title.toLowerCase().includes(currentFilters.search.toLowerCase()));
+
+    const topImportant = getTopImportant(filtered);
+    const topIds = new Set(topImportant.map(n => n.id));
+    let regular = filtered.filter(n => !topIds.has(n.id));
+    regular.sort((a,b) => { if(a.pinned !== b.pinned) return a.pinned ? -1 : 1; return b.timestamp - a.timestamp; });
+
+    const topContainer = document.getElementById('topNewsContainer');
+    if(topImportant.length > 0) {
+        document.getElementById('topSection').style.display = 'block';
+        topContainer.innerHTML = '';
+        topImportant.forEach(n => { topContainer.appendChild(createCard(n, true)); });
+    } else {
+        document.getElementById('topSection').style.display = 'none';
+    }
+
+    // Pagination — only render the first `displayedCount` regular items
+    const visibleRegular = regular.slice(0, displayedCount);
+    const hasMore = regular.length > displayedCount;
+
+    const container = document.getElementById('newsContainer');
+    container.innerHTML = '';
+    visibleRegular.forEach(n => { container.appendChild(createCard(n, false)); });
+
+    // Sentinel & end-of-feed indicators
+    const sentinel = document.getElementById('loadMoreSentinel');
+    const endIndicator = document.getElementById('endOfFeed');
+    if (hasMore) {
+        sentinel.style.display = 'flex';
+        sentinel.classList.remove('loading');
+        sentinel.textContent = `Showing ${visibleRegular.length} of ${regular.length} — scroll for more`;
+        endIndicator.style.display = 'none';
+    } else {
+        sentinel.style.display = 'none';
+        endIndicator.style.display = regular.length > PAGE_SIZE ? 'block' : 'none';
+    }
+
+    const emptyEl = document.getElementById('emptyState');
+    const hint = document.getElementById('emptyStateHint');
+    if (filtered.length === 0 && topImportant.length === 0) {
+        emptyEl.style.display = 'block';
+        if (allNews.length === 0) hint.textContent = hasEverLoaded ? 'No articles yet. Try refresh.' : 'Loading…';
+        else hint.textContent = 'Your filters match 0 articles. Try clearing filters.';
+    } else { emptyEl.style.display = 'none'; }
+
+    updateStats();
+}
+
+function loadMore() {
+    if (displayedCount >= allNews.length) return;
+    const sentinel = document.getElementById('loadMoreSentinel');
+    sentinel.classList.add('loading');
+    sentinel.textContent = 'Loading more…';
+    // Small delay so loading indicator is visible
+    setTimeout(() => {
+        displayedCount += PAGE_SIZE;
+        renderNews({ resetPagination: false });
+    }, 200);
+}
+
+// Set up IntersectionObserver to auto-load more when sentinel is visible
+function setupInfiniteScroll() {
+    if (scrollObserver) scrollObserver.disconnect();
+    const sentinel = document.getElementById('loadMoreSentinel');
+    if (!sentinel) return;
+    scrollObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (entry.isIntersecting && sentinel.style.display !== 'none' && !sentinel.classList.contains('loading')) {
+                loadMore();
+            }
+        }
+    }, { rootMargin: '200px' });
+    scrollObserver.observe(sentinel);
+}
+
+// Auto-hiding header: slides up when scrolling down, reappears when scrolling up.
+// Only activates after scrolling past a threshold so you can still see it at the top.
+function setupAutoHideHeader() {
+    const header = document.querySelector('.sticky-header');
+    if (!header) return;
+    let lastY = window.scrollY;
+    let ticking = false;
+    const THRESHOLD = 120; // px — don't hide until user has scrolled past this
+    const DELTA = 8;       // px — minimum scroll distance to trigger state change
+
+    function onScroll() {
+        const y = window.scrollY;
+        const diff = y - lastY;
+        if (Math.abs(diff) < DELTA) { ticking = false; return; }
+
+        if (y < THRESHOLD) {
+            // Near the top — always show header
+            header.classList.remove('hidden');
+        } else if (diff > 0) {
+            // Scrolling down — hide
+            header.classList.add('hidden');
+        } else {
+            // Scrolling up — show
+            header.classList.remove('hidden');
+        }
+        lastY = y;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(onScroll);
+            ticking = true;
+        }
+    }, { passive: true });
+}
+
+function createCard(n, isTop) {
+    const card = document.createElement('div');
+    card.className = `news-card ${isTop ? 'top-news' : ''} ${n.pinned ? 'pinned' : ''}`;
+
+    const catKey = categoryCssKey(n.category);
+    const catBadgeStyle = `background: var(--cat-${catKey}, var(--bg-primary)); color: var(--cat-${catKey}-text, var(--text-secondary));`;
+
+    // Extract domain for favicon
+    let domain = '';
+    if (n.url) {
+        try { domain = new URL(n.url).hostname.replace(/^www\./, ''); } catch {}
+    }
+    const faviconHtml = domain
+        ? `<img class="source-favicon" src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=32" alt="" loading="lazy" onerror="this.style.display='none'">`
+        : '';
+
+    const sourceHtml = n.url
+        ? `${faviconHtml}<a href="${escapeHtml(n.url)}" target="_blank" rel="noopener noreferrer" class="source-link">Read original on ${escapeHtml(n.source)} →</a>`
+        : `${faviconHtml}Source: ${escapeHtml(n.source)}`;
+
+    // Image thumbnail (top of card) — only if image_url is present
+    const imageHtml = n.imageUrl
+        ? `<div class="news-image"><img src="${escapeHtml(n.imageUrl)}" alt="" loading="lazy" onerror="this.parentElement.classList.add('broken')"></div>`
+        : '';
+
+    card.innerHTML = `
+        ${imageHtml}
+        <div class="importance-badge ${getImportanceClass(n.importance)}"></div>
+        <div class="news-content-wrap">
+            <span class="cat-badge" style="${catBadgeStyle}">${escapeHtml(n.category)}</span>
+            <div class="news-title">${escapeHtml(n.title)}</div>
+            <div class="news-desc">${escapeHtml(n.desc)}</div>
+            <div class="news-source-line">${sourceHtml}</div>
+            <div class="news-meta">
+                <span>⏱️ ${escapeHtml(n.time)}</span>
+                <span>⚡ ${n.importance}/10</span>
+                <span class="views-count">👁️ ${n.views}</span>
+            </div>
+            <div class="news-actions">
+                <button class="icon-btn save-btn" data-id="${n.id}">${n.saved?'🔖':'📄'} Save</button>
+                <button class="icon-btn share-btn" data-id="${n.id}">📤 Share</button>
+                <button class="icon-btn copy-btn" data-id="${n.id}">📋 Copy</button>
+                <button class="icon-btn pin-btn" data-id="${n.id}">${n.pinned?'📌':'📍'} Pin</button>
+            </div>
+        </div>
+    `;
+
+    card.addEventListener('click', (e) => {
+        if (e.target.closest('.icon-btn')) return;
+        if (e.target.closest('.source-link')) return;
+        markRead(n.id);
+        if (isMobile()) {
+            // Mobile: tap = open original in new tab
+            if (n.url) window.open(n.url, '_blank', 'noopener,noreferrer');
+            else showToast('No link available for this article');
+        } else {
+            showModal(n);
+        }
+    });
+
+    card.querySelector('.save-btn').addEventListener('click', (e) => { e.stopPropagation(); toggleSave(n.id, e); });
+    card.querySelector('.share-btn').addEventListener('click', (e) => { e.stopPropagation(); shareNews(n, e, e.currentTarget); });
+    card.querySelector('.copy-btn').addEventListener('click', (e) => { e.stopPropagation(); copyNews(n.title, n.desc, e); });
+    card.querySelector('.pin-btn').addEventListener('click', (e) => { e.stopPropagation(); togglePin(n.id, e); });
+    return card;
+}
+
+function showModal(n) {
+    if (isMobile()) return; // belt-and-suspenders: don't open on mobile even if called
+    document.getElementById('modalTitle').textContent = n.title;
+
+    // Smart body rendering — if fullText is empty or basically same as description,
+    // show description + big CTA "Read full article on X" button.
+    const sanitized = sanitizeHtml(n.fullText || '');
+    const plainFullText = sanitized.replace(/<[^>]+>/g, '').trim();
+    const hasRealContent = plainFullText.length > (n.desc?.length || 0) + 40;
+
+    const bodyEl = document.getElementById('modalBody');
+    if (hasRealContent) {
+        // Real full article content — render HTML
+        bodyEl.innerHTML = sanitized;
+    } else {
+        // Just the description — render it nicely as a paragraph + encouraging CTA
+        const descEsc = escapeHtml(n.desc || 'No preview available.');
+        const ctaHtml = n.url
+            ? `<a href="${escapeHtml(n.url)}" target="_blank" rel="noopener noreferrer"
+                   style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.7rem 1.1rem; background:var(--accent); color:white; border-radius:0.6rem; text-decoration:none; font-weight:600; font-size:0.9rem; margin-top:0.5rem;">
+                   📖 Read full article on ${escapeHtml(n.source)} →
+               </a>`
+            : '';
+        bodyEl.innerHTML = `
+            <p style="font-size:1rem; line-height:1.65;">${descEsc}</p>
+            <p style="margin-top:1rem; color:var(--text-tertiary); font-size:0.85rem;">
+                This is a short preview. The full article is available at the source.
+            </p>
+            ${ctaHtml}
+        `;
+    }
+
+    const sourceEl = document.getElementById('modalSourceLink');
+    sourceEl.innerHTML = '';
+    if (n.url) {
+        const link = document.createElement('a');
+        link.href = n.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.textContent = `🔗 Read original on ${n.source} →`;
+        sourceEl.appendChild(link);
+    } else {
+        sourceEl.textContent = `🔗 Source: ${n.source}`;
+    }
+    document.getElementById('modalActions').innerHTML = `
+        <button id="modalSaveBtn" class="icon-btn">${n.saved?'🔖 Unsave':'📄 Save'}</button>
+        <button id="modalShareBtn" class="icon-btn">📤 Share</button>
+        <button id="modalCopyBtn" class="icon-btn">📋 Copy</button>
+        <button id="modalPinBtn" class="icon-btn">${n.pinned?'📌 Unpin':'📍 Pin'}</button>
+    `;
+    document.getElementById('modalSaveBtn').onclick = () => { toggleSave(n.id); showModal({...n, saved: savedNewsIds.has(n.id)}); };
+    document.getElementById('modalShareBtn').onclick = (e) => { shareNews(n, e, e.currentTarget); };
+    document.getElementById('modalCopyBtn').onclick = () => { copyNews(n.title, n.desc); };
+    document.getElementById('modalPinBtn').onclick = () => { togglePin(n.id); showModal({...n, pinned: pinnedNewsIds.has(n.id)}); };
+    const m = document.getElementById('modal');
+    m.classList.add('visible');
+}
+function hideModal() { document.getElementById('modal').classList.remove('visible'); }
+function hideImportantModal() { document.getElementById('importantModal').classList.remove('visible'); }
+
+function updateStats() {
+    const important = getAllImportant(allNews).length;
+    document.getElementById('stats').innerHTML = `
+        <span class="stat-badge">📰 ${allNews.length}</span>
+        <span class="stat-badge">👁️ ${allNews.filter(n=>!n.read).length}</span>
+        <span class="stat-badge">⭐ ${important}</span>
+        <span class="stat-badge">🔖 ${savedNewsIds.size}</span>
+        <span class="stat-badge">📌 ${pinnedNewsIds.size}</span>
+    `;
+}
+
+function buildCategoryBtns(){
+    const container=document.getElementById('categoryButtons');
+    container.innerHTML='';
+    categoriesList.forEach(cat=>{
+        const btn=document.createElement('button');
+        btn.className=`cat-btn ${currentFilters.categories.has(cat)?'active':''}`;
+        btn.innerText=cat;
+        btn.onclick=()=>{
+            if(currentFilters.categories.has(cat)) currentFilters.categories.delete(cat);
+            else currentFilters.categories.add(cat);
+            persistCategories();
+            buildCategoryBtns();
+            renderNews();
+        };
+        container.appendChild(btn);
+    });
+}
+
+document.getElementById('topImportantBtn').onclick=()=>{ currentFilters.topImportant=!currentFilters.topImportant; document.getElementById('topImportantBtn').classList.toggle('active'); renderNews(); };
+document.getElementById('hideReadBtn').onclick=()=>{ currentFilters.hideRead=!currentFilters.hideRead; document.getElementById('hideReadBtn').classList.toggle('active'); renderNews(); };
+document.getElementById('showSavedBtn').onclick=()=>{ currentFilters.showSaved=!currentFilters.showSaved; document.getElementById('showSavedBtn').classList.toggle('active'); renderNews(); };
+// Clear filters — resets categories to DEFAULT (not empty), so new users always see something
+document.getElementById('clearFiltersBtn').onclick=()=>{
+    currentFilters.categories = new Set(DEFAULT_CATEGORIES);
+    currentFilters.topImportant=false;
+    currentFilters.hideRead=false;
+    currentFilters.showSaved=false;
+    currentFilters.search='';
+    persistCategories();
+    document.getElementById('searchInput').value='';
+    updateSearchClear();
+    buildCategoryBtns();
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    renderNews();
+    showToast('🎯 Filters reset to defaults');
+};
+
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+function updateSearchClear() { searchClear.style.display = searchInput.value ? 'block' : 'none'; }
+searchInput.addEventListener('input', (e) => { currentFilters.search = e.target.value; renderNews(); updateSearchClear(); });
+searchClear.addEventListener('click', () => { searchInput.value = ''; currentFilters.search = ''; renderNews(); updateSearchClear(); searchInput.focus(); });
+updateSearchClear();
+
+const topSection = document.getElementById('topSection');
+const collapseBtn = document.getElementById('collapseTopBtn');
+if (localStorage.getItem('topSectionCollapsed') === 'true') { topSection.classList.add('collapsed'); collapseBtn.textContent = '+'; }
+collapseBtn.addEventListener('click', () => {
+    const nowCollapsed = topSection.classList.toggle('collapsed');
+    collapseBtn.textContent = nowCollapsed ? '+' : '−';
+    localStorage.setItem('topSectionCollapsed', nowCollapsed);
+});
+
+document.getElementById('showAllImportantBtn').addEventListener('click', () => {
+    const all = getAllImportant(allNews);
+    const list = document.getElementById('importantModalList');
+    list.innerHTML = '';
+    if(all.length === 0) list.innerHTML = '<p>No important news.</p>';
+    else all.forEach(n => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding: 0.6rem; border-bottom: 1px solid var(--border); cursor: pointer;';
+        item.innerHTML = `<strong>${escapeHtml(n.title)}</strong><br><small>${escapeHtml(n.category)} • ${escapeHtml(n.time)} • ⚡${n.importance}/10 • 👁️${n.views}</small>`;
+        item.onclick = () => {
+            hideImportantModal();
+            if (isMobile() && n.url) window.open(n.url, '_blank', 'noopener,noreferrer');
+            else showModal(n);
+        };
+        list.appendChild(item);
+    });
+    document.getElementById('importantModal').classList.add('visible');
+});
+document.getElementById('closeImportantModal').addEventListener('click', hideImportantModal);
+document.getElementById('closeImportantX').addEventListener('click', hideImportantModal);
+document.getElementById('closeModal').addEventListener('click', hideModal);
+document.getElementById('closeModalX').addEventListener('click', hideModal);
+window.addEventListener('click', (e) => {
+    if(e.target === document.getElementById('modal')) hideModal();
+    if(e.target === document.getElementById('importantModal')) hideImportantModal();
+});
+
+function stopAutoRefresh(){ if(autoInterval){ clearInterval(autoInterval); autoInterval=null; } if(countdownTimer){ clearInterval(countdownTimer); countdownTimer=null; } document.getElementById('countdownDisplay').innerText='Off'; }
+function startAutoRefresh(sec){ stopAutoRefresh(); if(sec<=0) return; let rem=sec; const upd=()=>{ document.getElementById('countdownDisplay').innerHTML=`next in ${rem}s`; if(rem<=0){ backgroundRefresh(); rem=sec; } rem--; }; upd(); countdownTimer=setInterval(upd,1000); autoInterval=setInterval(()=>backgroundRefresh(),sec*1000); }
+document.getElementById('intervalSelect').addEventListener('change',(e)=>{ const v=parseInt(e.target.value); currentIntervalSec=isNaN(v)?0:v; if(currentIntervalSec>0) startAutoRefresh(currentIntervalSec); else stopAutoRefresh(); });
+document.getElementById('manualRefreshBtn').addEventListener('click',()=>refreshNews(true));
+document.getElementById('clearCacheBtn')?.addEventListener('click',()=>{
+    if (!confirm('Clear all cached news, saved items, and view counts?')) return;
+    allNews = []; savedNewsIds.clear(); readNewsIds.clear(); pinnedNewsIds.clear(); newsViews = {};
+    localStorage.removeItem('savedNews'); localStorage.removeItem('readNews');
+    localStorage.removeItem('pinnedNews'); localStorage.removeItem('newsViews');
+    renderNews(); showToast('🧹 All data cleared');
+});
+
+document.getElementById('newArticlesBanner').addEventListener('click', applyPendingArticles);
+
+const dark=localStorage.getItem('darkMode')==='true'; if(dark) document.body.classList.add('dark');
+document.getElementById('themeToggle').onclick=()=>{ document.body.classList.toggle('dark'); localStorage.setItem('darkMode',document.body.classList.contains('dark')); };
+
+function updateClock(){ document.getElementById('localTime').innerHTML = new Date().toLocaleTimeString('en-US') + ' UTC'; }
+setInterval(updateClock,1000); updateClock();
+
+window.addEventListener('keydown',(e)=>{
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    if(e.key==='r') refreshNews(true);
+    if(e.key==='c') document.getElementById('clearFiltersBtn').click();
+    if(e.key==='/'){ e.preventDefault(); document.getElementById('searchInput').focus(); }
+    if(e.key==='Escape'){ hideModal(); hideImportantModal(); hideShareMenu(); hideStaticModal(); }
+});
+
+// ==================== PULL-TO-REFRESH ====================
+(function setupPTR() {
+    const ptr = document.getElementById('ptrIndicator');
+    let startY = 0, dragY = 0, dragging = false;
+    const THRESHOLD = 80;
+
+    window.addEventListener('touchstart', (e) => {
+        if (window.scrollY > 0) return;
+        dragging = true;
+        startY = e.touches[0].clientY;
+        dragY = 0;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        if (window.scrollY > 0) { dragging = false; ptr.classList.remove('visible'); return; }
+        dragY = e.touches[0].clientY - startY;
+        if (dragY > 0 && dragY < 200) {
+            ptr.classList.add('visible');
+            ptr.style.transform = `translateY(${Math.min(dragY - 60, 0)}px)`;
+            if (dragY >= THRESHOLD) ptr.textContent = '↻ Release to refresh';
+            else ptr.textContent = '↓ Pull to refresh';
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+        if (!dragging) return;
+        dragging = false;
+        if (dragY >= THRESHOLD) {
+            ptr.textContent = '⟳ Refreshing...';
+            ptr.classList.add('refreshing');
+            ptr.style.transform = 'translateY(0)';
+            refreshNews(false);
+            setTimeout(() => { ptr.classList.remove('visible', 'refreshing'); ptr.style.transform = ''; }, 1200);
+        } else {
+            ptr.classList.remove('visible');
+            ptr.style.transform = '';
+        }
+        dragY = 0;
+    });
+})();
+
+// ==================== FOOTER MODALS ====================
+function buildSourcesListHtml() {
+    // Matches backend RSS_FEEDS categories & source map
+    const sourcesByCategory = {
+        'World': ['BBC', 'NYT', 'The Guardian', 'NPR'],
+        'Economy': ['BBC', 'NYT', 'The Guardian', 'MarketWatch', 'Financial Times'],
+        'Science': ['ScienceDaily', 'NYT', 'The Guardian', 'Nature', 'New Scientist'],
+        'Space': ['Space.com', 'NASA', 'Phys.org', 'Universe Today', 'ScienceDaily'],
+        'Technology': ['TechCrunch', 'The Verge', 'Wired', 'Ars Technica', 'Engadget'],
+        'AI': ['TechCrunch', 'MIT Tech Review', 'VentureBeat', 'OpenAI', 'Wired'],
+        'Gaming': ['Polygon', 'Eurogamer', 'Kotaku', 'PC Gamer', 'IGN'],
+        'Cryptocurrency': ['CoinDesk', 'Cointelegraph', 'Decrypt', 'Bitcoin Magazine'],
+        'Health': ['NYT', 'BBC', 'The Guardian', 'STAT'],
+        'Sports': ['ESPN', 'BBC', 'The Guardian', 'NYT'],
+        'Entertainment': ['Variety', 'Hollywood Reporter', 'NYT', 'Deadline', 'Rolling Stone'],
+        'Fashion': ['Vogue', "Harper's Bazaar", 'Elle', 'GQ', 'WWD'],
+        'Social Media': ['Social Media Today', 'Social Media Examiner', 'TechCrunch', 'The Verge'],
+        'Analytics': ['KDnuggets', 'Towards Data Science', 'FlowingData'],
+        'Trends': ['BuzzFeed', 'Mashable', 'The Verge', 'Reddit'],
+        'Fitness': ["Men's Health", "Women's Health", 'SELF', 'Nerd Fitness'],
+        'Travel': ['Condé Nast Traveler', 'NYT', 'Travel + Leisure'],
+        'Food': ['Bon Appétit', 'Eater', 'Food & Wine', 'NYT'],
+        'Environment': ['The Guardian', 'Inside Climate News', 'NYT'],
+        'Politics': ['NPR', 'NYT', 'The Guardian'],
+        'Startups': ['TechCrunch', 'Crunchbase', 'EU-Startups', 'Sifted', 'VentureBeat'],
+        'Education': ['EdSurge', 'Inside Higher Ed', 'Hechinger Report', 'The Guardian'],
+        'Art': ['Artnet', 'Hyperallergic', 'The Art Newspaper', 'The Guardian'],
+    };
+    let html = '<p>Metronome News Hub aggregates content from the following trusted publishers via their public RSS feeds. All content remains the property of the respective publishers.</p>';
+    for (const [cat, sources] of Object.entries(sourcesByCategory)) {
+        html += `<h4>${escapeHtml(cat)}</h4><ul>`;
+        sources.forEach(s => { html += `<li>${escapeHtml(s)}</li>`; });
+        html += '</ul>';
+    }
+    return html;
+}
+
+const FOOTER_CONTENT = {
+    about: {
+        title: 'About Metronome News Hub',
+        body: `
+            <p>Metronome News Hub is an RSS-powered news aggregator that pulls the latest headlines from 80+ trusted publishers across 24 topical categories — from world news and economy to space, AI, cryptocurrency, and the arts.</p>
+            <p>Our mission is simple: help you stay in rhythm with what matters, without the noise. We curate the feeds, filter the ads and low-quality content, and deliver clean, readable headlines updated every 10 minutes.</p>
+            <h4>What makes it different</h4>
+            <ul>
+                <li><strong>No tracking.</strong> We don't run analytics, serve ads, or collect your data. Your reading history stays in your browser.</li>
+                <li><strong>No algorithm.</strong> Stories are sorted chronologically — the newest first — not by engagement bait.</li>
+                <li><strong>No account required.</strong> Open the site and start reading. Preferences save locally to your device.</li>
+                <li><strong>Always free.</strong> No subscription, no paywall.</li>
+            </ul>
+            <p>Questions or feedback? Reach out at <a href="mailto:contact@metronome.news">contact@metronome.news</a>.</p>
+        `
+    },
+    privacy: {
+        title: 'Privacy Policy',
+        body: `
+            <p><em>Last updated: April 2026</em></p>
+            <p>Metronome News Hub is designed to be private by default. Here's exactly what happens with your data:</p>
+            <h4>Data we do NOT collect</h4>
+            <ul>
+                <li>We don't have user accounts — there's no registration, no email, no password.</li>
+                <li>We don't use analytics tools (no Google Analytics, no tracking pixels).</li>
+                <li>We don't set cookies for tracking.</li>
+                <li>We don't share or sell any data — we have none to share.</li>
+            </ul>
+            <h4>Data stored on your device</h4>
+            <p>The following is stored in your browser's <code>localStorage</code> and never leaves your device:</p>
+            <ul>
+                <li>Your selected category filters.</li>
+                <li>Saved, read, and pinned articles.</li>
+                <li>Theme preference (light/dark).</li>
+                <li>View counts for articles you opened.</li>
+            </ul>
+            <p>You can clear this at any time using the "🗑️ Clear all" button in the app, or by clearing your browser's site data.</p>
+            <h4>Third-party content</h4>
+            <p>When you click an article link, you leave our site and go to the publisher's website. That publisher's own privacy policy applies from that point on. We do not control what happens there.</p>
+            <p>We also fetch favicons for sources from Google's favicon service — this is a standard web practice and does not transmit any personal data.</p>
+            <h4>Contact</h4>
+            <p>If you have privacy questions: <a href="mailto:contact@metronome.news">contact@metronome.news</a></p>
+        `
+    },
+    terms: {
+        title: 'Terms of Use',
+        body: `
+            <p><em>Last updated: April 2026</em></p>
+            <p>By using Metronome News Hub, you agree to the following terms:</p>
+            <h4>Content disclaimer</h4>
+            <p>All news content displayed on this site is aggregated from third-party publishers via their public RSS feeds. We do not create, edit, or endorse this content. All articles, headlines, descriptions, and images remain the intellectual property of their respective publishers.</p>
+            <p>We display brief excerpts (titles and short summaries) in accordance with fair use principles, and we always link back to the original source. If you are a publisher and want your content removed, please contact us.</p>
+            <h4>No warranty</h4>
+            <p>Metronome News Hub is provided "as is" without any warranty of any kind. We make no guarantees about:</p>
+            <ul>
+                <li>The accuracy, completeness, or timeliness of any news content.</li>
+                <li>The availability or uptime of the service.</li>
+                <li>The suitability of content for any particular purpose.</li>
+            </ul>
+            <p>News content reflects the views of its original publishers, not of Metronome News Hub.</p>
+            <h4>Acceptable use</h4>
+            <p>Do not attempt to abuse, overload, or scrape our service. Reasonable personal use is welcome.</p>
+            <h4>Changes</h4>
+            <p>These terms may be updated from time to time. Continued use of the service constitutes acceptance of any changes.</p>
+        `
+    },
+    contact: {
+        title: 'Contact',
+        body: `
+            <p>We'd love to hear from you. Whether you have feedback, a bug report, a feature request, or a question about a source — drop us a line.</p>
+            <h4>Email</h4>
+            <p><a href="mailto:contact@metronome.news">contact@metronome.news</a></p>
+            <h4>What to include</h4>
+            <ul>
+                <li><strong>Bug report:</strong> describe what happened, what you expected, and which device/browser you're using.</li>
+                <li><strong>Feature request:</strong> tell us what problem you're trying to solve.</li>
+                <li><strong>Publisher takedown:</strong> include the RSS feed URL you'd like removed.</li>
+                <li><strong>New source suggestion:</strong> include the publisher name and RSS feed URL.</li>
+            </ul>
+            <p>We typically respond within a few days.</p>
+        `
+    },
+    sources: {
+        title: 'RSS Sources',
+        body: buildSourcesListHtml(),
+        useSourcesList: true
+    }
+};
+
+function openStaticModal(key) {
+    const entry = FOOTER_CONTENT[key];
+    if (!entry) return;
+    document.getElementById('staticModalTitle').textContent = entry.title;
+    const bodyEl = document.getElementById('staticModalBody');
+    bodyEl.innerHTML = entry.body;
+    if (entry.useSourcesList) bodyEl.classList.add('sources-list');
+    else bodyEl.classList.remove('sources-list');
+    document.getElementById('staticModal').classList.add('visible');
+}
+function hideStaticModal() {
+    document.getElementById('staticModal').classList.remove('visible');
+}
+
+document.getElementById('footerAboutBtn').addEventListener('click', () => openStaticModal('about'));
+document.getElementById('footerPrivacyBtn').addEventListener('click', () => openStaticModal('privacy'));
+document.getElementById('footerTermsBtn').addEventListener('click', () => openStaticModal('terms'));
+document.getElementById('footerSourcesBtn').addEventListener('click', () => openStaticModal('sources'));
+document.getElementById('footerContactBtn').addEventListener('click', () => openStaticModal('contact'));
+document.getElementById('closeStaticBtn').addEventListener('click', hideStaticModal);
+document.getElementById('closeStaticX').addEventListener('click', hideStaticModal);
+document.getElementById('staticModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('staticModal')) hideStaticModal();
+});
+
+// ==================== VIEW MODE (Grid / List) ====================
+function applyViewMode(mode) {
+    currentView = mode;
+    document.body.classList.toggle('view-list', mode === 'list');
+    document.body.classList.toggle('view-grid', mode === 'grid');
+    document.getElementById('viewGridBtn').classList.toggle('active', mode === 'grid');
+    document.getElementById('viewListBtn').classList.toggle('active', mode === 'list');
+    localStorage.setItem('viewMode', mode);
+}
+document.getElementById('viewGridBtn').addEventListener('click', () => applyViewMode('grid'));
+document.getElementById('viewListBtn').addEventListener('click', () => applyViewMode('list'));
+
+function init(){
+    applyViewMode(currentView);  // restore saved view mode BEFORE first render
+    buildCategoryBtns();
+    renderSkeletons(9);
+    fetchNews().finally(() => hideSkeletons());
+    startAutoRefresh(60);
+    setupInfiniteScroll();
+    setupAutoHideHeader();
+    showToast('🎵 Metronome News Hub ready');
+}
+init();
+</script>
+</body>
+</html>
