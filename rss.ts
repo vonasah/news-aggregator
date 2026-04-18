@@ -259,9 +259,12 @@ function isAd(title: string, description: string): boolean {
 let kv: Deno.Kv | null = null;
 try { kv = await Deno.openKv(); } catch (_e) { console.warn("KV unavailable"); }
 
-const CACHE_TTL = 10 * 60 * 1000;
-const STALE_TTL = 60 * 60 * 1000;
+const CACHE_TTL = 15 * 60 * 1000;        // hard TTL: 15 min (was 10 min — reduces KV writes)
+const STALE_TTL = 60 * 60 * 1000;        // stale-acceptable: 1 hour
 const MAX_CONCURRENT = 5;
+
+// Track KV write count for diagnostics (resets on cold start)
+let kvWriteCounter = 0;
 
 class Semaphore {
     private permits: number;
@@ -598,8 +601,6 @@ function makeCompact(items: any[]): any[] {
     return items.map(it => ({
         title: it.title,
         description: it.description,
-        // omit full content for KV — frontend shows description in card,
-        // and modal can work without full HTML (just shows description again)
         content: "",
         category: it.category,
         importance: it.importance,
@@ -611,10 +612,23 @@ function makeCompact(items: any[]): any[] {
     }));
 }
 
+// Lightweight content hash for deduplication (FNV-1a style, non-crypto)
+function hashCategoryData(items: any[]): string {
+    // Only use stable, distinguishing fields — timestamp/published_at drift shouldn't trigger writes
+    const signature = items.map(it => `${it.url}|${it.title}`).join("\n");
+    let h = 2166136261;
+    for (let i = 0; i < signature.length; i++) {
+        h = (h ^ signature.charCodeAt(i)) * 16777619;
+    }
+    return (h >>> 0).toString(36);
+}
+
+// In-memory hash tracking — if a category's data matches what's in KV, skip the write
+const lastSavedHashes = new Map<string, string>();
+
 async function saveCacheToKV(allNews: any[]): Promise<void> {
     if (!kv) return;
     try {
-        // Group by category
         const byCategory: Record<string, any[]> = {};
         for (const item of allNews) {
             const cat = item.category || "General";
@@ -622,33 +636,51 @@ async function saveCacheToKV(allNews: any[]): Promise<void> {
             byCategory[cat].push(item);
         }
 
-        // Save each category separately as compact JSON
         const categories = Object.keys(byCategory);
         const timestamp = Date.now();
+        let skipped = 0;
+        let written = 0;
+
         for (const cat of categories) {
             const compact = makeCompact(byCategory[cat]);
+            const newHash = hashCategoryData(compact);
+            const lastHash = lastSavedHashes.get(cat);
+
+            // Skip KV write if data is unchanged — biggest optimization
+            if (lastHash === newHash) {
+                skipped++;
+                continue;
+            }
+
             try {
                 await kv.set(
                     ["globalCache", cat],
-                    { data: compact, timestamp },
+                    { data: compact, timestamp, hash: newHash },
                     { expireIn: STALE_TTL }
                 );
+                lastSavedHashes.set(cat, newHash);
+                kvWriteCounter++;
+                written++;
             } catch (e) {
                 console.warn(`Could not save category ${cat} to KV:`, (e as Error).message);
             }
         }
 
-        // Save index (list of categories + timestamp)
-        try {
-            await kv.set(
-                ["globalCacheIndex"],
-                { categories, timestamp },
-                { expireIn: STALE_TTL }
-            );
-        } catch (e) {
-            console.warn("Could not save index to KV:", (e as Error).message);
+        // Only update the index if we actually wrote something new
+        if (written > 0) {
+            try {
+                await kv.set(
+                    ["globalCacheIndex"],
+                    { categories, timestamp },
+                    { expireIn: STALE_TTL }
+                );
+                kvWriteCounter++;
+            } catch (e) {
+                console.warn("Could not save index to KV:", (e as Error).message);
+            }
         }
-        console.log(`💾 Saved ${categories.length} categories to KV`);
+
+        console.log(`💾 KV writes: ${written} new, ${skipped} skipped (unchanged). Total this run: ${kvWriteCounter}`);
     } catch (e) {
         console.warn("saveCacheToKV failed:", e);
     }
@@ -665,14 +697,18 @@ async function warmCacheFromKV(): Promise<void> {
         const { categories, timestamp } = indexEntry.value;
         const allItems: any[] = [];
         for (const cat of categories) {
-            const entry = await kv.get<{ data: any[]; timestamp: number }>(["globalCache", cat]);
-            if (entry.value?.data) allItems.push(...entry.value.data);
+            const entry = await kv.get<{ data: any[]; timestamp: number; hash?: string }>(["globalCache", cat]);
+            if (entry.value?.data) {
+                allItems.push(...entry.value.data);
+                // Restore hash so we don't re-write identical data on first post-restart refresh
+                if (entry.value.hash) lastSavedHashes.set(cat, entry.value.hash);
+            }
         }
         if (allItems.length > 0) {
             allItems.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
             globalCache = { data: allItems, timestamp };
             const ageS = Math.round((Date.now() - timestamp) / 1000);
-            console.log(`🔥 Warmed from KV: ${allItems.length} items across ${categories.length} categories (${ageS}s old)`);
+            console.log(`🔥 Warmed from KV: ${allItems.length} items across ${categories.length} categories (${ageS}s old, ${lastSavedHashes.size} hashes restored)`);
         }
     } catch (e) {
         console.warn("warmCacheFromKV failed:", e);
@@ -702,11 +738,11 @@ async function refreshGlobalCache(): Promise<void> {
 await warmCacheFromKV();
 
 try {
-    Deno.cron("Refresh RSS cache", "*/10 * * * *", async () => { await refreshGlobalCache(); });
-    console.log("⏰ Cron scheduled: every 10 minutes");
+    Deno.cron("Refresh RSS cache", "*/15 * * * *", async () => { await refreshGlobalCache(); });
+    console.log("⏰ Cron scheduled: every 15 minutes");
 } catch (_e) {
     console.warn("Deno.cron unavailable; using setInterval fallback");
-    setInterval(() => { refreshGlobalCache().catch(console.error); }, 10 * 60 * 1000);
+    setInterval(() => { refreshGlobalCache().catch(console.error); }, 15 * 60 * 1000);
 }
 
 if (!globalCache.data) {
@@ -719,15 +755,65 @@ if (!globalCache.data) {
 Deno.serve(async (req: Request) => {
     const url = new URL(req.url);
     const path = url.pathname;
-    const headers = {
+
+    const jsonHeaders = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json"
     };
 
-    if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
+    if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: jsonHeaders });
 
+    // ==================== SEO: ROBOTS.TXT ====================
+    if (path === "/robots.txt") {
+        const txt = `User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: ${url.origin}/sitemap.xml
+`;
+        return new Response(txt, {
+            headers: {
+                "Content-Type": "text/plain; charset=utf-8",
+                "Cache-Control": "public, max-age=86400",
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
+    }
+
+    // ==================== SEO: SITEMAP.XML ====================
+    if (path === "/sitemap.xml") {
+        const lastmod = new Date(globalCache.timestamp || Date.now()).toISOString().split("T")[0];
+        const origin = url.origin;
+        const staticUrls = [
+            { loc: origin + "/", priority: "1.0", changefreq: "hourly" }
+        ];
+        // One URL per category
+        const categoryUrls = Object.keys(RSS_FEEDS).map(cat => ({
+            loc: `${origin}/?category=${encodeURIComponent(cat)}`,
+            priority: "0.8",
+            changefreq: "hourly"
+        }));
+        const allUrls = [...staticUrls, ...categoryUrls];
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${allUrls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+        return new Response(xml, {
+            headers: {
+                "Content-Type": "application/xml; charset=utf-8",
+                "Cache-Control": "public, max-age=3600",
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
+    }
+
+    // ==================== HEALTH (with KV usage) ====================
     if (path === "/health") {
         return new Response(JSON.stringify({
             status: "ok",
@@ -735,10 +821,16 @@ Deno.serve(async (req: Request) => {
             cacheItems: globalCache.data?.length || 0,
             cacheAge: globalCache.timestamp ? Math.round((Date.now() - globalCache.timestamp) / 1000) : null,
             refreshInProgress,
-            kvAvailable: !!kv
-        }), { headers });
+            kvAvailable: !!kv,
+            kvWritesThisSession: kvWriteCounter,
+            kvHashesTracked: lastSavedHashes.size,
+            cronInterval: "15 minutes",
+            feedCategories: Object.keys(RSS_FEEDS).length,
+            feedSources: Object.values(RSS_FEEDS).flat().length
+        }), { headers: jsonHeaders });
     }
 
+    // ==================== API: NEWS ====================
     if (path === "/api/news" || path === "/news") {
         const category = url.searchParams.get("category") || "all";
         const now = Date.now();
@@ -751,7 +843,7 @@ Deno.serve(async (req: Request) => {
                 status: "success", cached: true, stale: false,
                 total: filtered.length, data: filtered.slice(0, 100),
                 timestamp: globalCache.timestamp
-            }), { headers });
+            }), { headers: jsonHeaders });
         }
 
         if (globalCache.data && age < STALE_TTL) {
@@ -762,7 +854,7 @@ Deno.serve(async (req: Request) => {
                 status: "success", cached: true, stale: true,
                 total: filtered.length, data: filtered.slice(0, 100),
                 timestamp: globalCache.timestamp
-            }), { headers });
+            }), { headers: jsonHeaders });
         }
 
         console.log("🔄 No cache; synchronous fetch...");
@@ -773,8 +865,8 @@ Deno.serve(async (req: Request) => {
             status: "success", cached: false, stale: false,
             total: filtered.length, data: filtered.slice(0, 100),
             timestamp: globalCache.timestamp || now
-        }), { headers });
+        }), { headers: jsonHeaders });
     }
 
-    return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers });
+    return new Response(JSON.stringify({ error: "Not found" }), { status: 404, headers: jsonHeaders });
 });
